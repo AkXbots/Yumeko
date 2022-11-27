@@ -37,6 +37,8 @@ class Config(object):
     DB_URL = "postgres://owrivopvbczaip:8c24f469ed21a5db5fccd405143072aafb5d902753ef2b6ed5e7395224fc36b1@ec2-18-206-103-49.compute-1.amazonaws.com:5432/da5jikk46tbn3i"
     REDIS_URL = "redis://default:6vsajwd6wq3lNI7T3zMIpltTrU040DJC@redis-19248.c16.us-east-1-3.ec2.cloud.redislabs.com:19248"
     LOAD = []
+    ARQ_API_KEY = "arq.hamker.dev"
+    ARQ_API_KEY = "UMPYGF-MVNLVW-RTNXKA-FJWOUH-ARQ"
     ERROR_LOGS = -1001846183276
     BOT_NAME = "nezuko"
     NO_LOAD = ["rss", "cleaner", "connection", "math"]
