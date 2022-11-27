@@ -22,7 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-from NekoRobot.mongo import db
+from NekoRobot import db
 
 
 coupledb = db.couple
