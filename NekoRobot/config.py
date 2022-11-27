@@ -20,7 +20,7 @@ class Config(object):
     STRING_SESSION = ""
     MONGO_DB = "Shikimori"
     TEMP_DOWNLOAD_DIRECTORY= "./"
-    MONGO_DB_URL = "mongodb+srv://eren:eren@cluster0.aor5rcv.mongodb.net/?retryWrites=true&w=majority"
+    MONGO_DB_URI = "mongodb+srv://eren:eren@cluster0.aor5rcv.mongodb.net/?retryWrites=true&w=majority"
     OWNER_ID = 5667156680  # If you dont know, run the bot and do /id in your private chat with it, also an integer
     OWNER_USERNAME = "HSSLevii"
     HELP_IMG = "https://telegra.ph/file/717e1127686f864b5793c.jpg"
