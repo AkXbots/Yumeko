@@ -33,8 +33,8 @@ class Config(object):
     )  # Prints information like gbans, sudo promotes, AI enabled disable states that may help in debugging and shit
 
     # RECOMMENDED
-    SQLALCHEMY_DATABASE_URI = "postgres://pdepdgek:YLC10ZEJAjCC23wVGoNaL2qPsKMcsO6x@lucky.db.elephantsql.com/pdepdgek"  # needed for any database modules
-    DB_URL = "postgres://bfkskrbbdynjrg:834c5e7774030cb4c00bea8049d32b96d555ae0b3078a751b243adc31e3d5ed5@ec2-3-89-230-115.compute-1.amazonaws.com:5432/dfp627imqb2maa"
+    SQLALCHEMY_DATABASE_URI = "postgres://bfkskrbbdynjrg:834c5e7774030cb4c00bea8049d32b96d555ae0b3078a751b243adc31e3d5ed5@ec2-3-89-230-115.compute-1.amazonaws.com:5432/dfp627imqb2maa"  # needed for any database modules
+    DB_URL = "postgres://pdepdgek:YLC10ZEJAjCC23wVGoNaL2qPsKMcsO6x@lucky.db.elephantsql.com/pdepdgek"
     REDIS_URL = "redis://default:6vsajwd6wq3lNI7T3zMIpltTrU040DJC@redis-19248.c16.us-east-1-3.ec2.cloud.redislabs.com:19248"
     LOAD = []
     ARQ_API_KEY = "arq.hamker.dev"
