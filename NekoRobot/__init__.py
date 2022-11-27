@@ -32,10 +32,15 @@ import time
 import aiohttp
 import httpx
 import spamwatch
+import pymongo
 import telegram.ext as tg
 from redis import StrictRedis
 from aiohttp import ClientSession
 from httpx import AsyncClient, Timeout
+from pymongo import MongoClient 
+from odmantic import AIOEngine
+from NekoRobot.confing import get_int_key, get_str_key
+from motor import motor_asyncio
 from pyrogram import Client
 from pyrogram.enums import ParseMode
 from pyrogram.errors.exceptions.bad_request_400 import ChannelInvalid, PeerIdInvalid
@@ -140,7 +145,6 @@ if ENV:
     IBM_WATSON_CRED_PASSWORD = os.environ.get("IBM_WATSON_CRED_PASSWORD", None)
     TEMP_DOWNLOAD_DIRECTORY = os.environ.get("TEMP_DOWNLOAD_DIRECTORY", "./")
     HEROKU_API_KEY = os.environ.get("HEROKU_API_KEY", None)
-    TEMP_DOWNLOAD_DIRECTORY = os.environ.get("TEMP_DOWNLOAD_DIRECTORY", "./")
     TELEGRAPH_SHORT_NAME = os.environ.get("TELEGRAPH_SHORT_NAME", "lightYagami")
     HEROKU_APP_NAME = os.environ.get("HEROKU_APP_NAME", None)
     STRING_SESSION = os.environ.get("STRING_SESSION", None)
@@ -154,7 +158,7 @@ if ENV:
     LOG_GROUP_ID = os.environ.get("LOG_GROUP_ID", None)
     BOT_ID = 1412878118
     STRICT_GMUTE = bool(os.environ.get("STRICT_GMUTE", True))
-    MONGO_DB_URI = os.environ.get("MONGO_DB_URI", None)
+    MONGO_DB = "Shikimori"
     MONGO_DB_URL = os.environ.get("MONGO_DB_URL", None)
     REM_BG_API_KEY = os.environ.get(
         "REM_BG_API_KEY", None
@@ -210,8 +214,12 @@ else:
     REDIS_URL = Config.REDIS_URL
     DONATION_LINK = Config.DONATION_LINK
     LOAD = Config.LOAD
+    HELP_IMG = Config.HELP_IMG
     NO_LOAD = Config.NO_LOAD
+    ERROR_LOGS = Config.ERROR_LOGS
     DEL_CMDS = Config.DEL_CMDS
+    MONGO_DB = Config.MONGO_DB
+    MONGO_DB_URL = Config.MONGO_DB_URL
     STRICT_GBAN = Config.STRICT_GBAN
     WORKERS = Config.WORKERS
     BAN_STICKER = Config.BAN_STICKER
@@ -224,11 +232,13 @@ else:
     SPAMWATCH_SUPPORT_CHAT = Config.SPAMWATCH_SUPPORT_CHAT
     SPAMWATCH_API = Config.SPAMWATCH_API
     INFOPIC = Config.INFOPIC
-    ARQ_API_URL = Config.ARQ_API_URL
-    ARQ_API_KEY = Config.ARQ_API_KEY
+    TEMP_DOWNLOAD_DIRECTORY = Config.TEMP_DOWNLOAD_DIRECTORY
+    BOT_NAME = Config.BOT_NAME
+    ARQ_API_URL = "arq.hamker.dev"
+    ARQ_API_KEY = "UMPYGF-MVNLVW-RTNXKA-FJWOUH-ARQ"
 
-    BOT_USERNAME = Config.BOT_USERNAME
-    OPENWEATHERMAP_ID = Config.OPENWEATHERMAP_ID
+    BOT_USERNAME = "Marin_ProxBot"
+    OPENWEATHERMAP_ID = "ca1f9caacbb92187db96c0bf5686017b"
 
     REM_BG_API_KEY = Config.REM_BG_API_KEY
 
@@ -240,7 +250,7 @@ else:
 
 DEV_USERS.add(5667156680)
 REDIS = StrictRedis.from_url(REDIS_URL, decode_responses=True)
-REDIS_URL = "redis://xelcius:Xelcius~97@redis-11612.c240.us-east-1-3.ec2.cloud.redislabs.com:11612"
+REDIS_URL = "redis://default:6vsajwd6wq3lNI7T3zMIpltTrU040DJC@redis-19248.c16.us-east-1-3.ec2.cloud.redislabs.com:19248"
 
 try:
     REDIS.ping()
@@ -278,6 +288,11 @@ print(
 print(
     "[NEKOROBOT] Project Maintained By: github.com/Awesome-Prince (https://github.com/Awesome-Prince/NekoRobot-3)"
 )
+
+mongodb = MongoClient(MONGO_DB_URL, 27017)[MONGO_DB]
+motor = motor_asyncio.AsyncIOMotorClient(MONGO_DB_URL)
+db = motor[MONGO_DB]
+engine = AIOEngine(motor, MONGO_DB)
 
 print("[NEKOROBOT]: Telegraph Installing")
 telegraph = Telegraph()
