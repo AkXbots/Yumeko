@@ -159,7 +159,7 @@ if ENV:
     BOT_ID = 5722771565
     STRICT_GMUTE = bool(os.environ.get("STRICT_GMUTE", True))
     MONGO_DB = "Shikimori"
-    MONGO_DB_URL = os.environ.get("MONGO_DB_URL", None)
+    MONGO_DB_URI = os.environ.get("MONGO_DB_URI", None)
     REM_BG_API_KEY = os.environ.get(
         "REM_BG_API_KEY", None
     )  # From:- https://www.remove.bg/
@@ -219,7 +219,7 @@ else:
     ERROR_LOGS = Config.ERROR_LOGS
     DEL_CMDS = Config.DEL_CMDS
     MONGO_DB = Config.MONGO_DB
-    MONGO_DB_URL = Config.MONGO_DB_URL
+    MONGO_DB_URI = Config.MONGO_DB_URI
     STRICT_GBAN = Config.STRICT_GBAN
     WORKERS = Config.WORKERS
     BAN_STICKER = Config.BAN_STICKER
@@ -289,8 +289,8 @@ print(
     "[NEKOROBOT] Project Maintained By: github.com/Awesome-Prince (https://github.com/Awesome-Prince/NekoRobot-3)"
 )
 
-mongodb = MongoClient(MONGO_DB_URL, 27017)[MONGO_DB]
-motor = motor_asyncio.AsyncIOMotorClient(MONGO_DB_URL)
+mongodb = MongoClient(MONGO_DB_URI, 27017)[MONGO_DB]
+motor = motor_asyncio.AsyncIOMotorClient(MONGO_DB_URI)
 db = motor[MONGO_DB]
 engine = AIOEngine(motor, MONGO_DB)
 
