@@ -290,6 +290,8 @@ print(
     "[NEKOROBOT] Project Maintained By: github.com/Awesome-Prince (https://github.com/Awesome-Prince/NekoRobot-3)"
 )
 
+
+STRICT_GMUTE = "yes"
 mongodb = MongoClient(MONGO_DB_URI, 27017)[MONGO_DB]
 motor = motor_asyncio.AsyncIOMotorClient(MONGO_DB_URI)
 db = motor[MONGO_DB]
