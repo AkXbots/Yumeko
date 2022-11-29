@@ -93,7 +93,7 @@ async def upvote(_, message):
         new_karma = {"karma": karma}
         await update_karma(chat_id, await int_to_alpha(user_id), new_karma)
         await message.reply_text(
-            f"ɪɴᴄʀᴇᴍᴇɴᴛᴇᴅ ᴋᴀʀᴍᴀ  ᴏғ +1 {user_mention} \nᴛᴏᴛᴀʟ ᴘᴏɪɴᴛs: {karma}"
+            f"Incremented karma of +1 {user_mention} \nTotal Points: {karma}"
         )
 
 
@@ -128,7 +128,7 @@ async def downvote(_, message):
         new_karma = {"karma": karma}
         await update_karma(chat_id, await int_to_alpha(user_id), new_karma)
         await message.reply_text(
-            f"ᴅᴇᴄʀᴇᴍᴇɴᴛᴇᴅ ᴋᴀʀᴍᴀ ᴏғ -1 {user_mention}  \nᴛᴏᴛᴀʟ ᴘᴏɪɴᴛs: {karma}"
+            f"Decremented Karma of -1 {user_mention}  \nTotal Points: {karma}"
         )
 
 
@@ -137,10 +137,10 @@ async def downvote(_, message):
 async def karma(_, message):
     chat_id = message.chat.id
     if not message.reply_to_message:
-        m = await message.reply_text("ᴡᴀɪᴛ  10 sᴇᴄᴏɴᴅs")
+        m = await message.reply_text("Wait 10 Seconds")
         karma = await get_karmas(chat_id)
         if not karma:
-            await m.edit("ɴᴏ ᴋᴀʀᴍᴀ ɪɴ DB ғᴏʀ ᴛʜɪs ᴄʜᴀᴛ.")
+            await m.edit("No Karma in DB for this chat.")
             return
         msg = f"**ᴋᴀʀᴍᴀ ʟɪsᴛ ᴏғ {message.chat.title}:- **\n"
         limit = 0
@@ -153,7 +153,7 @@ async def karma(_, message):
                 sorted(karma_dicc.items(), key=lambda item: item[1], reverse=True)
             )
         if not karma_dicc:
-            await m.edit("ɴᴏ ᴋᴀʀᴍᴀ ɪɴ DB ғᴏʀ ᴛʜɪs ᴄʜᴀᴛ.")
+            await m.edit("No Karma in DB for this chat.")
             return
         for user_idd, karma_count in karma_arranged.items():
             if limit > 9:
@@ -174,10 +174,10 @@ async def karma(_, message):
         user_id = message.reply_to_message.from_user.id
         karma = await get_karma(chat_id, await int_to_alpha(user_id))
         karma = karma["karma"] if karma else 0
-        await message.reply_text(f"**ᴛᴏᴛᴀʟ ᴘᴏɪɴᴛ :** {karma}")
+        await message.reply_text(f"**Total Points :** {karma}")
 
 
-__mod_name__ = "𝙺ᴀʀᴍᴀ"
+__mod_name__ = "Karma"
 __help__ = """
 
 *Upvote* - Use upvote keywords like "+", "+1", "thanks", etc. to upvote a message.
