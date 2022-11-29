@@ -364,9 +364,6 @@ def help_button(update: Update, context: CallbackContext) -> None:
                             InlineKeyboardButton(
                                 text="⥀Back⥁", callback_data="help_back"
                             ),
-                            InlineKeyboardButton(
-                                text="⥁Support⥁", url=f"https://t.me/{SUPPORT_CHAT}"
-                            ),
                         ]
                     ]
                 ),
