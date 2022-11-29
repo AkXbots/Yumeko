@@ -1,151 +1,49 @@
+from typing import Optional, List
+from gtts import gTTS
 import os
-from datetime import datetime
-
 import requests
-from gtts import gTTS, gTTSError
-from telethon.tl import functions, types
+import json
 
-from NekoRobot import tbot
-from NekoRobot.events import register
+from telegram import ChatAction
+from telegram.ext import run_async
 
-IBM_WATSON_CRED_PASSWORD = ""
-IBM_WATSON_CRED_URL = ""
-TEMP_DOWNLOAD_DIRECTORY = "./"
+from NekoRobot import NEKO_PTB
+from NekoRobot.modules.disable import DisableAbleCommandHandler
+from NekoRobot.modules.helper_funcs.alternate import send_action
 
-
-async def is_register_admin(chat, user):
-    if isinstance(chat, (types.InputPeerChannel, types.InputChannel)):
-        return isinstance(
-            (
-                await tbot(functions.channels.GetParticipantRequest(chat, user))
-            ).participant,
-            (types.ChannelParticipantAdmin, types.ChannelParticipantCreator),
-        )
-    if isinstance(chat, types.InputPeerUser):
-        return True
-
-
-@register(pattern="^/tts (.*)")
-async def _(event):
-    if event.fwd_from:
-        return
-    if event.is_group:
-        if await is_register_admin(event.input_chat, event.message.sender_id):
-            pass
+@send_action(ChatAction.RECORD_AUDIO)
+def gtts(update, context):
+    msg = update.effective_message
+    reply = " ".join(context.args)
+    if not reply:
+        if msg.reply_to_message:
+            reply = msg.reply_to_message.text
         else:
-            return
-    input_str = event.pattern_match.group(1)
-    reply_to_id = event.message.id
-    if event.reply_to_msg_id:
-        previous_message = await event.get_reply_message()
-        text = previous_message.message
-        lan = input_str
-    elif "|" in input_str:
-        lan, text = input_str.split("|")
-    else:
-        await event.reply(
-            "Invalid Syntax\nFormat `/tts lang | text`\nFor eg: `/tts en | hello`"
-        )
-        return
-    text = text.strip()
-    lan = lan.strip()
+            return msg.reply_text(
+                "Reply to some message or enter some text to convert it into audio format!"
+            )
+        for x in "\n":
+            reply = reply.replace(x, "")
     try:
-        tts = gTTS(text, tld="com", lang=lan)
-        tts.save("Neko.mp3")
-    except AssertionError:
-        await event.reply(
-            "The text is empty.\n"
-            "Nothing left to speak after pre-precessing, "
-            "tokenizing and cleaning."
-        )
-        return
-    except ValueError:
-        await event.reply("Language is not supported.")
-        return
-    except RuntimeError:
-        await event.reply("Error loading the languages dictionary.")
-        return
-    except gTTSError:
-        await event.reply("Error in Google Text-to-Speech API request !")
-        return
-    with open("Neko.mp3", "r"):
-        await tbot.send_file(
-            event.chat_id, "Neko.mp3", voice_note=True, reply_to=reply_to_id
-        )
-        os.remove("Neko.mp3")
+        tts = gTTS(reply, lang='en', tld='co.in')
+        tts.save("k.mp3")
+        with open("k.mp3", "rb") as speech:
+            msg.reply_audio(speech)
+    finally:
+        if os.path.isfile("k.mp3"):
+            os.remove("k.mp3")
 
 
-# ------ MODULE IS UNDER TESTING ------#
+# Open API key
+API_KEY = "6ae0c3a0-afdc-4532-a810-82ded0054236"
+URL = "http://services.gingersoftware.com/Ginger/correct/json/GingerTheText"
 
 
-@register(pattern="^/stt$")
-async def _(event):
-    if event.fwd_from:
-        return
-    if event.is_group:
-        if await is_register_admin(event.input_chat, event.message.sender_id):
-            pass
-        else:
-            return
-    start = datetime.now()
-    if not os.path.isdir(TEMP_DOWNLOAD_DIRECTORY):
-        os.makedirs(TEMP_DOWNLOAD_DIRECTORY)
+NEKO_PTB.add_handler(DisableAbleCommandHandler("tts", gtts, pass_args=True, run_async=True))
 
-    if event.reply_to_msg_id:
-        previous_message = await event.get_reply_message()
-        required_file_name = await event.client.download_media(
-            previous_message, TEMP_DOWNLOAD_DIRECTORY
-        )
-        if IBM_WATSON_CRED_URL is None or IBM_WATSON_CRED_PASSWORD is None:
-            await event.reply(
-                "You need to set the required ENV variables for this module. \nModule stopping"
-            )
-        else:
-            # await event.reply("Starting analysis")
-            headers = {
-                "Content-Type": previous_message.media.document.mime_type,
-            }
-            data = open(required_file_name, "rb").read()
-            response = requests.post(
-                IBM_WATSON_CRED_URL + "/v1/recognize",
-                headers=headers,
-                data=data,
-                auth=("apikey", IBM_WATSON_CRED_PASSWORD),
-            )
-            r = response.json()
-            if "results" in r:
-                # process the json to appropriate string format
-                results = r["results"]
-                transcript_response = ""
-                transcript_confidence = ""
-                for alternative in results:
-                    alternatives = alternative["alternatives"][0]
-                    transcript_response += " " + str(alternatives["transcript"])
-                    transcript_confidence += (
-                        " " + str(alternatives["confidence"]) + " + "
-                    )
-                end = datetime.now()
-                ms = (end - start).seconds
-                if transcript_response != "":
-                    string_to_show = "TRANSCRIPT: `{}`\nTime Taken: {} seconds\nConfidence: `{}`".format(
-                        transcript_response, ms, transcript_confidence
-                    )
-                else:
-                    string_to_show = "TRANSCRIPT: `Nil`\nTime Taken: {} seconds\n\n**No Results Found**".format(
-                        ms
-                    )
-                await event.reply(string_to_show)
-            else:
-                await event.reply(r["error"])
-            # now, remove the temporary file
-            os.remove(required_file_name)
-    else:
-        await event.reply("Reply to a voice message, to get the text out of it.")
-
-
-_mod_name_ = "Text to Speech"
-
-_help_ = """
- - /tts: Reply to any message to get text to speech output
- - /stt: Type in reply to a voice message(english only) to extract text from it.
+__help__ = """
+ ‣ `/tts`: Convert Text in Bot Audio 
+ *Usage*: reply to text or write message with command. Example `/tts hello`
 """
+__mod_name__ = "Text to Speech"
+__command_list__ = ["tts"]
