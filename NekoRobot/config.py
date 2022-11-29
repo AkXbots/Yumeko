@@ -24,7 +24,7 @@ class Config(object):
     OWNER_ID = 5667156680  # If you dont know, run the bot and do /id in your private chat with it, also an integer
     OWNER_USERNAME = "HSSLevii"
     HELP_IMG = "https://telegra.ph/file/717e1127686f864b5793c.jpg"
-    SUPPORT_CHAT = "ZeroTwoMusic"  # Your own group for support, do not add the @
+    SUPPORT_CHAT = "WoFBotsSupport"  # Your own group for support, do not add the @
     JOIN_LOGGER = (
         -1001801733203
     )  # Prints any new group the bot is added to, prints just the name and ID.
