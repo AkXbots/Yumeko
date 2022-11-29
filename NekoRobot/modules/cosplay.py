@@ -36,7 +36,7 @@ async def waifu(event):
   r = requests.get("https://waifu-api.vercel.app/items/1").json()
   await event.reply(file=r)
 
-__mod_name__ = "𝙲ᴏsᴘʟᴀʏ"
+__mod_name__ = "Cosplay"
 __help__ = """
 Just a weeb type module to get anime cosplay and lewd pictures
 - /cosplay
