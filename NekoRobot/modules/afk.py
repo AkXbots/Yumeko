@@ -6,7 +6,7 @@ from datetime import datetime
 from telegram import Message, User
 from telegram import MessageEntity, ParseMode
 from telegram.error import BadRequest
-from telegram.ext import Filters, MessageHandler, run_async
+from telegram.ext import Filters, MessageHandler
 
 from NekoRobot import NEKO_PTB
 from NekoRobot.modules.disable import DisableAbleCommandHandler, DisableAbleMessageHandler
@@ -161,10 +161,10 @@ __help__ = """
 """
 
 
-AFK_HANDLER = DisableAbleCommandHandler("afk", afk, run_async=True)
+AFK_HANDLER = DisableAbleCommandHandler("afk", afk)
 AFK_REGEX_HANDLER = MessageHandler(Filters.regex("(?i)brb"), afk)
-NO_AFK_HANDLER = MessageHandler(Filters.all & Filters.chat_type.groups, no_longer_afk, run_async=True)
-AFK_REPLY_HANDLER = MessageHandler(Filters.all & Filters.chat_type.groups, reply_afk, run_async=True)
+NO_AFK_HANDLER = MessageHandler(Filters.all & Filters.group, no_longer_afk)
+AFK_REPLY_HANDLER = MessageHandler(Filters.all & Filters.group, reply_afk)
 
 NEKO_PTB.add_handler(AFK_HANDLER, AFK_GROUP)
 NEKO_PTB.add_handler(AFK_REGEX_HANDLER, AFK_GROUP)
