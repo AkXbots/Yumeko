@@ -4,7 +4,7 @@ import os
 
 
 def get_user_list(config, key):
-    with open(f"{os.getcwd()}/NekoRobot/{config}", "r") as json_file:
+    with open(f"{os.getcwd()}/AsukaRobot/{config}", "r") as json_file:
         return json.load(json_file)[key]
 
 
@@ -16,31 +16,32 @@ class Config(object):
 
     API_ID = 14980683  # integer value, dont use ""
     API_HASH = "5bc2e9cd58092119e741c1f2b545c1bf"
-    TOKEN = "5722771565:AAGif5G3SyWr7PB0vQ9yGL9WiXJbpNR604c"  # This var used to be API_KEY but it is now TOKEN, adjust accordingly.
-    STRING_SESSION = ""
-    MONGO_DB = "Shikimori"
+    TOKEN = "5737891264:AAEmGAEKzBQdqJxWAIyo7OR4GTDl4y0tns0"  # This var used to be API_KEY but it is now TOKEN, adjust accordingly.
+    MONGO_DB = "AsukaRobot"
     TEMP_DOWNLOAD_DIRECTORY= "./"
-    MONGO_DB_URI = "mongodb+srv://eren:eren@cluster0.aor5rcv.mongodb.net/?retryWrites=true&w=majority"
+    OPENWEATHERMAP_ID = "ca1f9caacbb92187db96c0bf5686017b"
+    MONGO_DB_URI = "mongodb+srv://chizuru:chizuru@cluster0.gat3orr.mongodb.net/?retryWrites=true&w=majority"
     OWNER_ID = 5667156680  # If you dont know, run the bot and do /id in your private chat with it, also an integer
     OWNER_USERNAME = "HSSLevii"
-    HELP_IMG = "https://telegra.ph/file/717e1127686f864b5793c.jpg"
+    HELP_IMG = "https://graph.org/file/6cfacdbb83055d3988e95.jpg"
     SUPPORT_CHAT = "WoFBotsSupport"  # Your own group for support, do not add the @
     JOIN_LOGGER = (
-        -1001801733203
+        -1001531672704
     )  # Prints any new group the bot is added to, prints just the name and ID.
     EVENT_LOGS = (
-        -1001609507640
+        -1001862665354
     )  # Prints information like gbans, sudo promotes, AI enabled disable states that may help in debugging and shit
 
     # RECOMMENDED
-    SQLALCHEMY_DATABASE_URI = "postgres://bfkskrbbdynjrg:834c5e7774030cb4c00bea8049d32b96d555ae0b3078a751b243adc31e3d5ed5@ec2-3-89-230-115.compute-1.amazonaws.com:5432/dfp627imqb2maa"  # needed for any database modules
-    DB_URL = "postgres://pdepdgek:YLC10ZEJAjCC23wVGoNaL2qPsKMcsO6x@lucky.db.elephantsql.com/pdepdgek"
-    REDIS_URL = "redis://default:6vsajwd6wq3lNI7T3zMIpltTrU040DJC@redis-19248.c16.us-east-1-3.ec2.cloud.redislabs.com:19248"
+    SQLALCHEMY_DATABASE_URI = "postgres://enwfyszs:C4g39JW8GV0vAW9meLAQPwIzDfUS42GO@babar.db.elephantsql.com/enwfyszs"  # needed for any database modules
+    DB_URL = "postgres://enwfyszs:C4g39JW8GV0vAW9meLAQPwIzDfUS42GO@babar.db.elephantsql.com/enwfyszs"
+    REDIS_URL = "redis://default:vTbmUt0cwVylAjm7WfGLg9gzrQFmPKq3@redis-15692.c274.us-east-1-3.ec2.cloud.redislabs.com:15692"
     LOAD = []
-    ARQ_API_KEY = "arq.hamker.dev"
+    OWNER_NAME = "𝒍𝒆𝒗𝒊"
+    ARQ_API_URL = "arq.hamker.dev"
     ARQ_API_KEY = "UMPYGF-MVNLVW-RTNXKA-FJWOUH-ARQ"
-    ERROR_LOGS = -1001846183276
-    BOT_NAME = "nezuko"
+    ERROR_LOGS = -1001871775815
+    BOT_NAME = "Cʜɪᴢᴜʀᴜ"
     NO_LOAD = ["rss", "cleaner", "connection", "math"]
     WEBHOOK = False
     INFOPIC = True
@@ -62,6 +63,7 @@ class Config(object):
     DONATION_LINK = None  # EG, paypal
     CERT_PATH = None
     PORT = 5000
+    BOT_USERNAME = "Chizuru_ProxBot"
     DEL_CMDS = True  # Delete commands that users dont have access to, like delete /ban if a non admin uses it.
     STRICT_GBAN = True
     WORKERS = (
