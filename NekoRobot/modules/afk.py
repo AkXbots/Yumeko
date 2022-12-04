@@ -1,8 +1,30 @@
-import time
-import random
+"""
+MIT License
+
+Copyright (c) 2022 Arsh
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+"""
 
 from typing import Optional
-from datetime import datetime
+import time
+
 from telegram import Message, User
 from telegram import MessageEntity, ParseMode
 from telegram.error import BadRequest
@@ -20,7 +42,6 @@ from NekoRobot.modules.helper_funcs.readable_time import get_readable_time
 AFK_GROUP = 7
 AFK_REPLY_GROUP = 8
 
-
 def afk(update, context):
     args = update.effective_message.text.split(None, 1)
     user = update.effective_user
@@ -30,7 +51,10 @@ def afk(update, context):
     if user.id == 777000:
         return
     start_afk_time = time.time()
-    reason = args[1] if len(args) >= 2 else "none"
+    if len(args) >= 2:
+        reason = args[1]
+    else:
+        reason = "none"
     start_afk(update.effective_user.id, reason)
     REDIS.set(f'afk_time_{update.effective_user.id}', start_afk_time)
     fname = update.effective_user.first_name
@@ -52,24 +76,14 @@ def no_longer_afk(update, context):
     REDIS.delete(f'afk_time_{user.id}')
     res = end_afk(user.id)
     if res:
-        if message.new_chat_members:  # dont say msg
+        if message.new_chat_members:  #dont say msg
             return
         firstname = update.effective_user.first_name
         try:
-            options = [
-                "The Dead {} Came Back From His Grave! Time Taken: {}",
-                "Hey {} Darling, Welcome Back! We Were Apart For {}",
-                "{} Came Back After Masturbating! Time Taken: {}",
-                "OwO, Welcome Back {}! You Were Missing Since {} ",
-            ]
-            chosen_option = random.choice(options)
-            update.effective_message.reply_text(
-                chosen_option.format(firstname, end_afk_time),
-            )
-        except BaseException:
-            pass
-            
-
+            message.reply_text(
+                "{} is back online!\n\n⏱️ You were gone for {}.".format(firstname, end_afk_time))
+        except Exception:
+            return
 
 
 def reply_afk(update, context):
@@ -125,14 +139,16 @@ def check_afk(update, context, user_id, fst_name, userc_id):
     if is_user_afk(user_id):
         reason = afk_reason(user_id)
         since_afk = get_readable_time((time.time() - float(REDIS.get(f'afk_time_{user_id}'))))
-        if int(userc_id) == int(user_id):
-            return
         if reason == "none":
-            res = "{} Is With Your GF!\nLast Seen Here: {} Ago.".format(fst_name, since_afk)
+            if int(userc_id) == int(user_id):
+                return
+            res = "{} is afk.\n\n⏱️ Last seen {} ago.".format(fst_name, since_afk)
+            update.effective_message.reply_text(res)
         else:
-            res = "{} Is Dead!\nReason: {}\nLast Liveliness: {} Ago.".format(fst_name, reason, since_afk)
-
-        update.effective_message.reply_text(res)
+            if int(userc_id) == int(user_id):
+                return
+            res = "{} is afk.\n⛥ Reason: {}\n\n⏱️ Last seen {} ago.".format(fst_name, reason, since_afk)
+            update.effective_message.reply_text(res)
 
 
 def __user_info__(user_id):
@@ -140,25 +156,20 @@ def __user_info__(user_id):
     text = ""
     if is_afk:
         since_afk = get_readable_time((time.time() - float(REDIS.get(f'afk_time_{user_id}'))))
-        text = "This user is currently afk (away from keyboard)."
-        text += f"\nLast Seen: {since_afk} Ago."
+        text = "<i>This user is currently afk (away from keyboard).</i>"
+        text += f"\n<i>Since: {since_afk}</i>"
        
     else:
-        text = "This user currently isn't afk (not away from keyboard)."
+        text = "<i>This user is currently isn't afk (away from keyboard).</i>"
     return text
 
-def __stats__():
-    return f"• {len(REDIS.keys())} Total Keys in Redis Database."
 
 def __gdpr__(user_id):
     end_afk(user_id)
 
-__mod_name__ = "Afk"
-__help__ = """
-  When marked as AFK, any mentions will be replied to with a message stating that you're not available!
- • `/afk <reason>`*:* Mark yourself as AFK.
- - `brb <reason>`*:* Same as the afk command, but not a command.
-"""
+
+
+__mod_name__ = "𝙰ғᴋ"
 
 
 AFK_HANDLER = DisableAbleCommandHandler("afk", afk)
