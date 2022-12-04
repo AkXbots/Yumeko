@@ -4,7 +4,7 @@ import os
 
 
 def get_user_list(config, key):
-    with open(f"{os.getcwd()}/AsukaRobot/{config}", "r") as json_file:
+    with open(f"{os.getcwd()}/NekoRobot/{config}", "r") as json_file:
         return json.load(json_file)[key]
 
 
@@ -17,7 +17,7 @@ class Config(object):
     API_ID = 14980683  # integer value, dont use ""
     API_HASH = "5bc2e9cd58092119e741c1f2b545c1bf"
     TOKEN = "5737891264:AAEmGAEKzBQdqJxWAIyo7OR4GTDl4y0tns0"  # This var used to be API_KEY but it is now TOKEN, adjust accordingly.
-    MONGO_DB = "AsukaRobot"
+    MONGO_DB = "Shikimori"
     TEMP_DOWNLOAD_DIRECTORY= "./"
     OPENWEATHERMAP_ID = "ca1f9caacbb92187db96c0bf5686017b"
     MONGO_DB_URI = "mongodb+srv://chizuru:chizuru@cluster0.gat3orr.mongodb.net/?retryWrites=true&w=majority"
