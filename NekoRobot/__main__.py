@@ -48,6 +48,7 @@ from telegram.error import (
     NetworkError,
     TelegramError,
     TimedOut,
+    Unauthorized,
 )
 from telegram.ext import (
     CallbackContext,
@@ -63,7 +64,6 @@ from NekoRobot import (
     BOT_NAME,
     BOT_USERNAME,
     DONATION_LINK,
-    HELP_IMG,
     LOGGER,
     NEKO_PTB,
     OWNER_ID,
@@ -83,6 +83,7 @@ from NekoRobot.modules import ALL_MODULES
 from NekoRobot.modules.helper_funcs.chat_status import is_user_admin
 from NekoRobot.modules.helper_funcs.misc import paginate_modules
 
+MIKU_S = "https://graph.org/file/3de54ad1098888d494b93.jpg"
 
 def get_readable_time(seconds: int) -> str:
     count = 0
@@ -109,29 +110,43 @@ def get_readable_time(seconds: int) -> str:
     return ping_time
 
 
+HELP_IMG = "https://graph.org/file/6cfacdbb83055d3988e95.jpg"
 HELP_MSG = "Click The Button Below To Get Help Menu In Your Dm."
 START_MSG = "I'm Awake Already!\n<b>Haven't Slept Since:</b> <code>{}</code>"
 
 PM_START_TEXT = """
-────「 [{}](https://telegra.ph/file/025c6a82cdd540878442f.jpg) 」────
-*Hola! {},*
-*๏ This is Nezuko !*
-*➻ The Most Powerful Telegram Group Management Bot With Some Awesome And Useful Features.*
-───────────────────────
-*➛ Click On The 📚 Commands Button To Get Information About My Modules And Commands.*
+────「 [Cʜɪᴢᴜʀᴜ]({}) 」────
+*Hᴀʏɪ Hᴀʏɪ*! {} sᴇɴᴘᴀɪ,
+Mʏsᴇʟғ *Cʜɪᴢᴜʀᴜ* ᴀɴ ᴀᴅᴠᴀɴᴄᴇᴅ ᴍᴀɴᴀɢᴇᴍᴇɴᴛ ʙᴏᴛ ʙᴜɪʟᴛ ᴛᴏ ᴍᴀɴᴀɢᴇ ʏᴏᴜʀ ɢʀᴏᴜᴘs.
+sᴏ ᴡʜᴀᴛ ᴀʀᴇ ʏᴏᴜ ᴡᴀɪᴛɪɴɢ ғᴏʀ sᴇɴᴘᴀɪ ʀᴇʟᴀx ᴀɴᴅ ᴊᴜsᴛ ᴀᴅᴅ ᴍᴇ ɪɴ ʏᴏᴜʀ ɢʀᴏᴜᴘ ᴀɴᴅ ʟᴇᴍᴍᴇ ʜᴀɴᴅʟᴇ ᴀʟʟ ᴛʜᴇ ᴛᴀsᴋs.
+━─━────༺༻────━─━
+⦿ ᴜᴘᴛɪᴍᴇ {}
+━─━────༺༻────━─━
+ʜɪᴛ /help ᴛᴏ ᴋɴᴏᴡ ᴍʏ ᴀʙɪʟɪᴛɪᴇs.
 """
+
+
+PHOTO = (
+      "https://graph.org/file/d83b580634ac1590471f4.jpg",
+      "https://graph.org/file/cd0694447554e66eb5ad5.jpg",
+      "https://graph.org/file/be42c59456bad76fec619.jpg",
+      "https://graph.org/file/b133b77a192510d463cac.jpg",
+      "https://graph.org/file/e59a61290dd7097a3c5f1.jpg",
+      "https://graph.org/file/092872aa619a467d57ea5.jpg",
+      "https://graph.org/file/281ee6f0787440b251c8a.jpg",
+)
 
 buttons = [
     [
         InlineKeyboardButton(
-            text=f"Add {BOT_NAME} To Your Group",
+            text=f"🔥ᴀᴅᴅ ᴍᴇ ɪɴ ɢʀᴏᴜᴘs🔥",
             url=f"https://telegram.dog/{BOT_USERNAME}?startgroup=true",
         )
     ],
     [
-        InlineKeyboardButton(text="📓 Commands", callback_data="help_back"),
+        InlineKeyboardButton(text="⚡ᴄᴏᴍᴍᴀɴᴅs⚡", callback_data="help_back"),
         InlineKeyboardButton(
-            text="🚑 Support", url="https://t.me/WoFBotsSupport"
+            text="🚁sᴜᴘᴘᴏʀᴛ🚁", url="https://t.me/WoFBotsSupport"
         ),
     ],
 ]
@@ -147,11 +162,11 @@ HELP_STRINGS = """
 """
 
 GROUP_START_IMG = (
-    "https://telegra.ph/file/a048c4fa0bdb2738fff69.jpg",
-    "https://telegra.ph/file/a62029574186f318c6529.jpg",
-    "https://telegra.ph/file/da817befa131f7a5f533e.jpg",
-    "https://telegra.ph/file/7dcde6edba760c620e91f.jpg",
-    "https://telegra.ph/file/1368985b1a20870949673.jpg",
+    "https://graph.org/file/8da1926f37ba046380333.jpg",
+    "https://graph.org/file/c524b116572aeab85de10.jpg",
+    "https://graph.org/file/0207ffe5c34d8def45246.jpg",
+    "https://graph.org/file/575bb37708e2c571cb142.jpg",
+    "https://graph.org/file/dbbeff71ace10c605b517.jpg",
 )
 
 DONATE_STRING = """❂ I'm Free for Everyone ❂"""
@@ -245,7 +260,7 @@ def start(update: Update, context: CallbackContext):
                         [
                             [
                                 InlineKeyboardButton(
-                                    text="⥀Back⥁", callback_data="help_back"
+                                    text="Back", callback_data="help_back"
                                 )
                             ]
                         ]
@@ -267,9 +282,8 @@ def start(update: Update, context: CallbackContext):
         else:
             first_name = update.effective_user.first_name
             update.effective_message.reply_text(
-                PM_START_TEXT.format(
-                    escape_markdown(context.bot.first_name),
-                    escape_markdown(first_name),
+                PM_START_TEXT.format(random.choice(PHOTO),escape_markdown(first_name),
+                    escape_markdown(uptime),
                 ),
                 reply_markup=InlineKeyboardMarkup(buttons),
                 parse_mode=ParseMode.MARKDOWN,
@@ -278,19 +292,14 @@ def start(update: Update, context: CallbackContext):
     else:
         update.effective_message.reply_photo(
             random.choice(GROUP_START_IMG),
-            caption=f"<b>Yes, Master I'm alive!\nHaven't sleep since</b>: <code>{uptime}</code>",
+            caption=f"OwO Onichan! I'm Ready To Play, Hehe.",
             parse_mode=ParseMode.HTML,
             reply_markup=InlineKeyboardMarkup(
                 [
-                    [
-                        InlineKeyboardButton(
-                            text="🚑 Support",
-                            url=f"https://telegram.dog/{SUPPORT_CHAT}",
-                        ),
-                        InlineKeyboardButton(
-                            text="📢 Updates",
-                            url="https://telegram.dog/WOFBotsUpdates",
-                        ),
+                  [
+                       InlineKeyboardButton(
+                             text="🚑 sᴜᴘᴘᴏʀᴛ",
+                             url="t.me/WoFBotsSupport"),
                     ]
                 ]
             ),
@@ -362,7 +371,7 @@ def help_button(update: Update, context: CallbackContext) -> None:
                     [
                         [
                             InlineKeyboardButton(
-                                text="⥀Back⥁", callback_data="help_back"
+                                text="Back ↩️", callback_data="help_back"
                             ),
                         ]
                     ]
@@ -412,14 +421,13 @@ def neko_callback_data(update: Update, context: CallbackContext) -> None:
             parse_mode=ParseMode.MARKDOWN,
             disable_web_page_preview=True,
             reply_markup=InlineKeyboardMarkup(
-                [[InlineKeyboardButton(text="⥁Back⥁", callback_data="neko_back")]]
+                [[InlineKeyboardButton(text="Back", callback_data="neko_back")]]
             ),
         )
     elif query.data == "neko_back":
         first_name = update.effective_user.first_name
         query.message.edit_text(
-            PM_START_TEXT.format(
-                escape_markdown(context.bot.first_name),
+            PM_START_TEXT.format(random.choice(PHOTO),
                 escape_markdown(first_name),
             ),
             reply_markup=InlineKeyboardMarkup(buttons),
@@ -461,7 +469,7 @@ def get_help(update: Update, context: CallbackContext) -> None:
             chat.id,
             text,
             InlineKeyboardMarkup(
-                [[InlineKeyboardButton(text="⥁Back⥁", callback_data="help_back")]]
+                [[InlineKeyboardButton(text="Back", callback_data="help_back")]]
             ),
         )
 
@@ -642,21 +650,7 @@ def donate(update: Update, context: CallbackContext) -> None:
             )
 
             update.effective_message.reply_text(
-                text="Adding Me To Your Groups Is Donation For Me Though I Would Appreciate If You Join My Creator's Group.",
-                reply_markup=InlineKeyboardMarkup(
-                    [
-                        [
-                            InlineKeyboardButton(
-                                text="🕊️ WOF",
-                                url="https://telegram.dog/WingsOfFreedom2",
-                            ),
-                            InlineKeyboardButton(
-                                text="🚑 Support",
-                                url=f"https://telegram.dog/{SUPPORT_CHAT}",
-                            ),
-                        ]
-                    ]
-                ),
+                text="Adding Me To Your Groups Is Donation For Me Though I Would Appreciate If You Join My Creator's Group."
             )
         except Unauthorized:
             update.effective_message.reply_text(
@@ -683,6 +677,19 @@ def migrate_chats(update: Update):
 
 
 def main():
+
+    if SUPPORT_CHAT is not None and isinstance(SUPPORT_CHAT, str):
+        try:
+            name = NEKO_PTB.bot.first_name
+            m = NEKO_PTB.bot.send_photo(f"@{SUPPORT_CHAT}", MIKU_S, caption=f"*{name} is now up again!*", parse_mode=ParseMode.MARKDOWN,
+        )
+        except Unauthorized:
+            LOGGER.warning(
+                "Miku can't able to send message to support_chat, go and check!")
+        except BadRequest as e:
+            LOGGER.warning(e.message)
+
+
     test_handler = CommandHandler("test", test, run_async=True)
     start_handler = CommandHandler("start", start, run_async=True)
 
