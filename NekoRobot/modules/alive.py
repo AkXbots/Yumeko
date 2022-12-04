@@ -23,6 +23,7 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
+import random
 import asyncio
 import datetime
 from datetime import datetime
@@ -31,7 +32,7 @@ from telegram import __version__ as ptb
 from telethon import Button
 
 from NekoRobot import BOT_NAME, BOT_USERNAME, SUPPORT_CHAT
-from NekoRobot import tbot as neko
+from NekoRobot import telethn as neko
 from NekoRobot.events import register
 
 edit_time = 5
@@ -42,6 +43,15 @@ file3 = "https://telegra.ph/file/a62029574186f318c6529.jpg"
 file4 = "https://telegra.ph/file/1368985b1a20870949673.jpg"
 file5 = "https://telegra.ph/file/7dcde6edba760c620e91f.jpg"
 """ =======================Neko====================== """
+
+PHOTO = [
+    "https://graph.org/file/8da1926f37ba046380333.jpg",
+    "https://graph.org/file/c524b116572aeab85de10.jpg",
+    "https://graph.org/file/0207ffe5c34d8def45246.jpg",
+    "https://graph.org/file/575bb37708e2c571cb142.jpg",
+    "https://graph.org/file/dbbeff71ace10c605b517.jpg",
+]
+
 
 START_TIME = datetime.utcnow()
 START_TIME_ISO = START_TIME.replace(microsecond=0).isoformat()
@@ -71,14 +81,13 @@ async def hmm(yes):
     current_time = datetime.utcnow()
     uptime_sec = (current_time - START_TIME).total_seconds()
     uptime = await _human_time_duration(int(uptime_sec))
-    NekoX = f"**👋Hey [{yes.sender.first_name}](tg://user?id={yes.sender.id})\n\n💫I'm {BOT_NAME}\n🥀I'm Working Perfectly **\n\n"
+    NekoX = f"**👋Hey [{yes.sender.first_name}](tg://user?id={yes.sender.id}) Senpai\n\n🌟I'm {BOT_NAME}\n🌹I'm Working Fine as Always **\n\n"
     NekoX += f"**⚡️My Uptime :** `{uptime}`\n\n"
-    NekoX += f"**🐍Python-telegram-bot Version :** `{ptb}`\n\n"
-    NekoX += f"**👑My Creator:** [𝒍𝒆𝒗𝒊](https://t.me/HssLevii)"
+    NekoX += f"**🐍PTB Version :** `{ptb}`\n\n"
     BUTTON = [
         [
-            Button.url("🌟Help", f"https://t.me/{BOT_USERNAME}?start=help"),
-            Button.url("🚑Support", f"https://t.me/{SUPPORT_CHAT}"),
+            Button.url("🏥 Support", f"https://t.me/{SUPPORT_CHAT}"),
         ]
     ]
-    await neko.send_file(yes.chat_id, file="https://telegra.ph/file/c5e1df176997cf893533e.mp4",caption=NekoX, buttons=BUTTON)
+    ran = random.choice(PHOTO)
+    await neko.send_file(yes.chat_id, ran, caption=NekoX, buttons=BUTTON)
