@@ -32,7 +32,7 @@ from telegram import __version__ as ptb
 from telethon import Button
 
 from NekoRobot import BOT_NAME, BOT_USERNAME, SUPPORT_CHAT
-from NekoRobot import telethn as neko
+from NekoRobot import tbot as neko
 from NekoRobot.events import register
 
 edit_time = 5
