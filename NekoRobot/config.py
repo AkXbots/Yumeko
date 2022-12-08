@@ -34,8 +34,8 @@ class Config(object):
     )  # Prints information like gbans, sudo promotes, AI enabled disable states that may help in debugging and shit
 
     # RECOMMENDED
-    SQLALCHEMY_DATABASE_URI = "postgres://enwfyszs:C4g39JW8GV0vAW9meLAQPwIzDfUS42GO@babar.db.elephantsql.com/enwfyszs"  # needed for any database modules
-    DB_URL = "postgres://enwfyszs:C4g39JW8GV0vAW9meLAQPwIzDfUS42GO@babar.db.elephantsql.com/enwfyszs"
+    SQLALCHEMY_DATABASE_URI = "postgres://eupwuqfv:SLbJ7k3bg3RzEhiRTNCq5qGb0QmOmnJl@rajje.db.elephantsql.com/eupwuqfv"  # needed for any database modules
+    DB_URL = "postgres://eupwuqfv:SLbJ7k3bg3RzEhiRTNCq5qGb0QmOmnJl@rajje.db.elephantsql.com/eupwuqfv"
     REDIS_URL = "redis://default:vTbmUt0cwVylAjm7WfGLg9gzrQFmPKq3@redis-15692.c274.us-east-1-3.ec2.cloud.redislabs.com:15692"
     LOAD = []
     OWNER_NAME = "𝒍𝒆𝒗𝒊"
