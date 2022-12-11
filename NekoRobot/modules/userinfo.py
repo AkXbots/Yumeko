@@ -45,7 +45,7 @@ from NekoRobot.modules.sql.afk_sql import check_afk_status, is_afk
 from NekoRobot.modules.sql.global_bans_sql import is_user_gbanned
 from NekoRobot.modules.sql.users_sql import get_user_num_chats
 
-NEKO_IMG = "https://graph.org/file/a487548faa51f7dda941e.jpg"
+NEKO_IMG = "https://graph.org/file/288e6b9a0e2ebb1ac3017.jpg"
 
 
 def no_by_per(totalhp, percentage):
