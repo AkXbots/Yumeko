@@ -5,7 +5,7 @@ import asyncio
 from telethon import events
 from NekoRobot import OWNER_ID, tbot as telethn
 from NekoRobot import DRAGONS as SYS_ADMIN
-from .helper_funcs.decorators import register
+from NekoRobot.events import register
 
 @register(pattern="(log|log@Chizuru_ProxBot)(?: |$)(.*)", from_users=[SYS_ADMIN, OWNER_ID], raw=True)
 # @telethn.on(events.NewMessage(pattern=f"^[!/>]log(?: |$)([\s\S]*)", from_users=OWNER_ID))
