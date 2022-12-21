@@ -43,8 +43,13 @@ def dt_tom():
         dt()[0].split('/')[1]+"/" + dt()[0].split('/')[2]
     return a
 
-today = str(dt()[0])
-tomorrow = str(dt_tom())
+def today():
+    return str(dt()[0])
+
+
+def tomorrow():
+    return str(dt_tom())
+
 
 @pgram.on_message(filters.command("couples"))
 @capture_err
