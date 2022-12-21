@@ -59,7 +59,7 @@ async def couple(_, message):
         return
     try:
         chat_id = message.chat.id
-        is_selected = await get_couple(chat_id, today)
+        is_selected = await get_couple(chat_id, today())
         if not is_selected:
             list_of_users = []
             async for i in pgram.get_chat_members(message.chat.id):
@@ -77,7 +77,7 @@ async def couple(_, message):
 
             couple_selection_message = f"""**Couple of the day:**
 {c1_mention} + {c2_mention} = 💗
-__New couple of the day may be chosen at 12AM {tomorrow}__"""
+__New couple of the day may be chosen at 12AM {tomorrow()}__"""
             await pgram.send_message(
                 message.chat.id,
                 text=couple_selection_message
@@ -86,7 +86,7 @@ __New couple of the day may be chosen at 12AM {tomorrow}__"""
                 "c1_id": c1_id,
                 "c2_id": c2_id
             }
-            await save_couple(chat_id, today, couple)
+            await save_couple(chat_id, today(), couple)
 
         elif is_selected:
             c1_id = int(is_selected['c1_id'])
@@ -95,7 +95,7 @@ __New couple of the day may be chosen at 12AM {tomorrow}__"""
             c2_name = (await pgram.get_users(c2_id)).first_name
             couple_selection_message = f"""Couple of the day:
 [{c1_name}](tg://user?id={c1_id}) + [{c2_name}](tg://user?id={c2_id}) = 💜
-__New couple of the day may be chosen at 12AM {tomorrow}__"""
+__New couple of the day may be chosen at 12AM {tomorrow()}__"""
             await pgram.send_message(
                 message.chat.id,
                 text=couple_selection_message,
