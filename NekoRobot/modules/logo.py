@@ -247,7 +247,7 @@ async def lego(event):
     quew = event.pattern_match.group(1)
     if event.sender_id != OWNER_ID and not quew:
         await event.reply(
-            "Darling, please give me some text to create logo!\nExample `/logo <Levi>`"
+            "Give me some text to create logo!\nExample `/logo <Levi>`"
         )
         return
     pesan = await event.reply("`Logo in Process. Please wait a sec...`")
@@ -286,4 +286,4 @@ async def lego(event):
         await event.reply("Floodwait error")
 
 
-__mod_name__ = "Logo"
+__mod_name__ = "Logo Maker"
