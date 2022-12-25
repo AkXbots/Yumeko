@@ -28,12 +28,44 @@ import urllib
 import urllib.request
 
 from bing_image_downloader import downloader
+from search_engine_parser import GoogleSearch
 from bs4 import BeautifulSoup
 from telethon import *
 from telethon.tl.types import *
 
 from NekoRobot import tbot
 from NekoRobot.events import register
+
+
+@register(pattern="^/google (.*)")
+async def _(event):
+    if event.fwd_from:
+        return
+
+    webevent = await event.reply("Searching...")
+    match = event.pattern_match.group(1)
+    page = re.findall(r"page=\d+", match)
+    try:
+        page = page[0]
+        page = page.replace("page=", "")
+        match = match.replace("page=" + page[0], "")
+    except IndexError:
+        page = 1
+    search_args = (str(match), int(page))
+    gsearch = GoogleSearch()
+    gresults = await gsearch.async_search(*search_args)
+    msg = ""
+    for i in range(len(gresults["links"])):
+        try:
+            title = gresults["titles"][i]
+            link = gresults["links"][i]
+            desc = gresults["descriptions"][i]
+            msg += f"❍[{title}]({link})\n**{desc}**\n\n"
+        except IndexError:
+            break
+    await webevent.edit(
+        "**Search Query:**\n`" + match + "`\n\n**Results:**\n" + msg, link_preview=False
+    )
 
 
 @register(pattern="^/img (.*)")
@@ -57,7 +89,6 @@ async def img_sampler(event):
     for files in types:
         files_grabbed.extend(glob.glob(files))
     await tbot.send_file(event.chat_id, files_grabbed, reply_to=event.id)
-    os.chdir("/app")
     os.system("rm -rf store")
 
 
