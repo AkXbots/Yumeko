@@ -81,7 +81,7 @@ def no_longer_afk(update, context):
         firstname = update.effective_user.first_name
         try:
             message.reply_text(
-                "{} is back online!\n\n⏱️ You were gone for {}.".format(firstname, end_afk_time))
+                "{} is back online!\n⏳ You were gone for {}.".format(firstname, end_afk_time))
         except Exception:
             return
 
@@ -142,12 +142,12 @@ def check_afk(update, context, user_id, fst_name, userc_id):
         if reason == "none":
             if int(userc_id) == int(user_id):
                 return
-            res = "{} is afk.\n\n⏱️ Last seen {} ago.".format(fst_name, since_afk)
+            res = "{} is afk.\n⌛ Last seen {} ago.".format(fst_name, since_afk)
             update.effective_message.reply_text(res)
         else:
             if int(userc_id) == int(user_id):
                 return
-            res = "{} is afk.\n⛥ Reason: {}\n\n⏱️ Last seen {} ago.".format(fst_name, reason, since_afk)
+            res = "{} is afk.\n⛥ Reason: {}\n⏳ Last seen {} ago.".format(fst_name, reason, since_afk)
             update.effective_message.reply_text(res)
 
 
