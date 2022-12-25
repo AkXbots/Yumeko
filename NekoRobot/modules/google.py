@@ -135,7 +135,5 @@ async def is_register_admin(chat, user):
 __mod_name__ = "Tools"
 
 __help__ = """
-⍟ /img <text> :- Search Google For Images And Returns Them For Greater No. Of Results Specify Lim, For
-
-E.g: /img hello lim=10
+⍟ /img <text>*:* Search Google for images and returns them\nFor greater no. of results specify lim, For eg: `/img hello lim=10`
 """
