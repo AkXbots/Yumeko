@@ -26,7 +26,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import threading
 
-from Shikimori.modules.sql import BASE, SESSION
+from NekoRobot.modules.sql import BASE, SESSION
 from sqlalchemy import Boolean, Column, UnicodeText
 
 
