@@ -1,33 +1,33 @@
 """
-STATUS: Code is working. ✅
-"""
+MIT License
 
-"""
-GNU General Public License v3.0
+Copyright (c) 2022 Aʙɪsʜɴᴏɪ
 
-Copyright (C) 2022, SOME-1HING [https://github.com/SOME-1HING]
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-Credits:-
-    I don't know who originally wrote this code. If you originally wrote this code, please reach out to me. 
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
 
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <https://www.gnu.org/licenses/>.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
 """
 
 import html
 
-from NekoRobot import CustomCommandHandler, NEKO_PTB
-from NekoRobot import ALLOW_EXCL
+from telegram import ParseMode, Update
+from telegram.ext import CallbackContext, CommandHandler, Filters, MessageHandler
+
+from NekoRobot import ALLOW_EXCL, BOT_NAME, CustomCommandHandler, NEKO_PTB
 from NekoRobot.modules.disable import DisableAbleCommandHandler
 from NekoRobot.modules.helper_funcs.chat_status import (
     bot_can_delete,
@@ -36,13 +36,6 @@ from NekoRobot.modules.helper_funcs.chat_status import (
     user_admin,
 )
 from NekoRobot.modules.sql import cleaner_sql as sql
-from telegram import ParseMode, Update
-from telegram.ext import (
-    CallbackContext,
-    CommandHandler,
-    Filters,
-    MessageHandler,
-)
 
 CMD_STARTERS = ("/", "!") if ALLOW_EXCL else "/"
 BLUE_TEXT_CLEAN_GROUP = 13
@@ -83,8 +76,7 @@ def clean_blue_text_must_click(update: Update, context: CallbackContext):
             command = fst_word[1:].split("@")
             chat = update.effective_chat
 
-            ignored = sql.is_command_ignored(chat.id, command[0])
-            if ignored:
+            if ignored := sql.is_command_ignored(chat.id, command[0]):
                 return
 
             if command[0] not in command_list:
@@ -102,28 +94,24 @@ def set_blue_text_must_click(update: Update, context: CallbackContext):
         val = args[0].lower()
         if val in ("off", "no"):
             sql.set_cleanbt(chat.id, False)
-            reply = "Bluetext cleaning has been disabled for <b>{}</b>".format(
-                html.escape(chat.title),
-            )
+            reply = f"ʙʟᴜᴇᴛᴇxᴛ ᴄʟᴇᴀɴɪɴɢ ʜᴀs ʙᴇᴇɴ ᴅɪsᴀʙʟᴇᴅ ғᴏʀ <b>{html.escape(chat.title)}</b>"
+
             message.reply_text(reply, parse_mode=ParseMode.HTML)
 
         elif val in ("yes", "on"):
             sql.set_cleanbt(chat.id, True)
-            reply = "Bluetext cleaning has been enabled for <b>{}</b>".format(
-                html.escape(chat.title),
-            )
+            reply = f"ʙʟᴜᴇᴛᴇxᴛ ᴄʟᴇᴀɴɪɴɢ ʜᴀs ʙᴇᴇɴ ᴇɴᴀʙʟᴇᴅ ғᴏʀ <b>{html.escape(chat.title)}</b>"
+
             message.reply_text(reply, parse_mode=ParseMode.HTML)
 
         else:
-            reply = "Invalid argument.Accepted values are 'yes', 'on', 'no', 'off'"
+            reply = "ɪɴᴠᴀʟɪᴅ ᴀʀɢᴜᴍᴇɴᴛ.ᴀᴄᴄᴇᴘᴛᴇᴅ ᴠᴀʟᴜᴇs ᴀʀᴇ 'yes', 'on', \  'no', 'off'"
             message.reply_text(reply)
     else:
         clean_status = sql.is_enabled(chat.id)
         clean_status = "Enabled" if clean_status else "Disabled"
-        reply = "Bluetext cleaning for <b>{}</b> : <b>{}</b>".format(
-            html.escape(chat.title),
-            clean_status,
-        )
+        reply = f"ʙʟᴜᴇᴛᴇxᴛ ᴄʟᴇᴀɴɪɴɢ ғᴏʀ <b>{html.escape(chat.title)}</b> : <b>{clean_status}</b>"
+
         message.reply_text(reply, parse_mode=ParseMode.HTML)
 
 
@@ -134,17 +122,14 @@ def add_bluetext_ignore(update: Update, context: CallbackContext):
     args = context.args
     if len(args) >= 1:
         val = args[0].lower()
-        added = sql.chat_ignore_command(chat.id, val)
-        if added:
-            reply = "<b>{}</b> has been added to bluetext cleaner ignore list.".format(
-                args[0],
-            )
+        if added := sql.chat_ignore_command(chat.id, val):
+            reply = f"<b>{args[0]}</b> ʜᴀs ʙᴇᴇɴ ᴀᴅᴅᴇᴅ ᴛᴏ ʙʟᴜᴇᴛᴇxᴛ ᴄʟᴇᴀɴᴇʀ ɪɢɴᴏʀᴇ ʟɪsᴛ."
         else:
-            reply = "Command is already ignored."
+            reply = "ᴄᴏᴍᴍᴀɴᴅ ɪs ᴀʟʀᴇᴀᴅʏ ɪɢɴᴏʀᴇᴅ."
         message.reply_text(reply, parse_mode=ParseMode.HTML)
 
     else:
-        reply = "No command supplied to be ignored."
+        reply = "ɴᴏ ᴄᴏᴍᴍᴀɴᴅ sᴜᴘᴘʟɪᴇᴅ ᴛᴏ ʙᴇ ɪɢɴᴏʀᴇᴅ."
         message.reply_text(reply)
 
 
@@ -155,19 +140,16 @@ def remove_bluetext_ignore(update: Update, context: CallbackContext):
     args = context.args
     if len(args) >= 1:
         val = args[0].lower()
-        removed = sql.chat_unignore_command(chat.id, val)
-        if removed:
+        if removed := sql.chat_unignore_command(chat.id, val):
             reply = (
-                "<b>{}</b> has been removed from bluetext cleaner ignore list.".format(
-                    args[0],
-                )
+                f"<b>{args[0]}</b> ʜᴀs ʙᴇᴇɴ ʀᴇᴍᴏᴠᴇᴅ ғʀᴏᴍ ʙʟᴜᴇᴛᴇxᴛ ᴄʟᴇᴀɴᴇʀ ɪɢɴᴏʀᴇ ʟɪsᴛ."
             )
         else:
-            reply = "Command isn't ignored currently."
+            reply = "ᴄᴏᴍᴍᴀɴᴅ ɪsɴ'ᴛ ɪɢɴᴏʀᴇᴅ ᴄᴜʀʀᴇɴᴛʟʏ."
         message.reply_text(reply, parse_mode=ParseMode.HTML)
 
     else:
-        reply = "No command supplied to be unignored."
+        reply = "ɴᴏ ᴄᴏᴍᴍᴀɴᴅ sᴜᴘᴘʟɪᴇᴅ ᴛᴏ ʙᴇ ᴜɴɪɢɴᴏʀᴇᴅ."
         message.reply_text(reply)
 
 
@@ -177,17 +159,15 @@ def add_bluetext_ignore_global(update: Update, context: CallbackContext):
     args = context.args
     if len(args) >= 1:
         val = args[0].lower()
-        added = sql.global_ignore_command(val)
-        if added:
-            reply = "<b>{}</b> has been added to global bluetext cleaner ignore list.".format(
-                args[0],
-            )
+        if added := sql.global_ignore_command(val):
+            reply = f"<b>{args[0]}</b> ʜᴀs ʙᴇᴇɴ ᴀᴅᴅᴇᴅ ᴛᴏ ɢʟᴏʙᴀʟ ʙʟᴜᴇᴛᴇxᴛ ᴄʟᴇᴀɴᴇʀ ɪɢɴᴏʀᴇ ʟɪsᴛ."
+
         else:
-            reply = "Command is already ignored."
+            reply = "ᴄᴏᴍᴍᴀɴᴅ ɪs ᴀʟʀᴇᴀᴅʏ ɪɢɴᴏʀᴇᴅ."
         message.reply_text(reply, parse_mode=ParseMode.HTML)
 
     else:
-        reply = "No command supplied to be ignored."
+        reply = "ɴᴏ ᴄᴏᴍᴍᴀɴᴅ sᴜᴘᴘʟɪᴇᴅ ᴛᴏ ʙᴇ ɪɢɴᴏʀᴇᴅ."
         message.reply_text(reply)
 
 
@@ -197,17 +177,15 @@ def remove_bluetext_ignore_global(update: Update, context: CallbackContext):
     args = context.args
     if len(args) >= 1:
         val = args[0].lower()
-        removed = sql.global_unignore_command(val)
-        if removed:
-            reply = "<b>{}</b> has been removed from global bluetext cleaner ignore list.".format(
-                args[0],
-            )
+        if removed := sql.global_unignore_command(val):
+            reply = f"<b>{args[0]}</b> ʜᴀs ʙᴇᴇɴ ʀᴇᴍᴏᴠᴇᴅ ғʀᴏᴍ ɢʟᴏʙᴀʟ ʙʟᴜᴇᴛᴇxᴛ ᴄʟᴇᴀɴᴇʀ ɪɢɴᴏʀᴇ ʟɪsᴛ."
+
         else:
-            reply = "Command isn't ignored currently."
+            reply = "ᴄᴏᴍᴍᴀɴᴅ ɪsɴ'ᴛ ɪɢɴᴏʀᴇᴅ ᴄᴜʀʀᴇɴᴛʟʏ."
         message.reply_text(reply, parse_mode=ParseMode.HTML)
 
     else:
-        reply = "No command supplied to be unignored."
+        reply = "No ᴄᴏᴍᴍᴀɴᴅ sᴜᴘᴘʟɪᴇᴅ ᴛᴏ ʙᴇ ᴜɴɪɢɴᴏʀᴇᴅ."
         message.reply_text(reply)
 
 
@@ -221,19 +199,19 @@ def bluetext_ignore_list(update: Update, context: CallbackContext):
     text = ""
 
     if global_ignored_list:
-        text = "The following commands are currently ignored globally from bluetext cleaning :\n"
+        text = "The ғᴏʟʟᴏᴡɪɴɢ ᴄᴏᴍᴍᴀɴᴅs ᴀʀᴇ ᴄᴜʀʀᴇɴᴛʟʏ ɪɢɴᴏʀᴇᴅ ɢʟᴏʙʏᴀʟʟʏ ғʀᴏᴍ ʙʟᴜᴇᴛᴇxᴛ ᴄʟᴇᴀɴɪɴɢ :\n"
 
         for x in global_ignored_list:
             text += f" - <code>{x}</code>\n"
 
     if local_ignore_list:
-        text += "\nThe following commands are currently ignored locally from bluetext cleaning :\n"
+        text += "\nᴛʜᴇ ғᴏʟʟᴏᴡɪɴɢ ᴄᴏᴍᴍᴀɴᴅs ᴀʀᴇ ᴄᴜʀʀᴇɴᴛʟʏ ɪɢɴᴏʀᴇᴅ ʟᴏᴄᴀʟʟʏ ғʀᴏᴍ ʙʟᴜᴇᴛᴇxᴛ ᴄʟᴇᴀɴɪɴɢ :\n"
 
         for x in local_ignore_list:
             text += f" - <code>{x}</code>\n"
 
     if text == "":
-        text = "No commands are currently ignored from bluetext cleaning."
+        text = "ɴᴏ ᴄᴏᴍᴍᴀɴᴅs ᴀʀᴇ ᴄᴜʀʀᴇɴᴛʟʏ ɪɢɴᴏʀᴇᴅ ғʀᴏᴍ ʙʟᴜᴇᴛᴇxᴛ ᴄʟᴇᴀɴɪɴɢ."
         message.reply_text(text)
         return
 
@@ -277,6 +255,7 @@ NEKO_PTB.add_handler(REMOVE_CLEAN_BLUE_TEXT_GLOBAL_HANDLER)
 NEKO_PTB.add_handler(LIST_CLEAN_BLUE_TEXT_HANDLER)
 NEKO_PTB.add_handler(CLEAN_BLUE_TEXT_HANDLER, BLUE_TEXT_CLEAN_GROUP)
 
+__mod_name__ = "𝙲ʟᴇᴀɴɪɴɢ"
 __handlers__ = [
     SET_CLEAN_BLUE_TEXT_HANDLER,
     ADD_CLEAN_BLUE_TEXT_HANDLER,
@@ -287,18 +266,20 @@ __handlers__ = [
     (CLEAN_BLUE_TEXT_HANDLER, BLUE_TEXT_CLEAN_GROUP),
 ]
 
-__mod_name__ = "Cleaner"
+__help__ = f"""
+ʙʟᴜᴇ ᴛᴇxᴛ ᴄʟᴇᴀɴᴇʀ ʀᴇᴍᴏᴠᴇᴅ ᴀɴʏ ᴍᴀᴅᴇ ᴜᴘ ᴄᴏᴍᴍᴀɴᴅs ᴛʜᴀᴛ ᴘᴇᴏᴘʟᴇ sᴇɴᴅ ɪɴ ʏᴏᴜʀ ᴄʜᴀᴛ.
 
-__help__ = """
- Blue text cleaner removed any made up commands that people send in your chat.
+• /cleanblue <on/off/yes/no>*:* `ᴄʟᴇᴀɴ ᴄᴏᴍᴍᴀɴᴅs ᴀғᴛᴇʀ sᴇɴᴅɪɴɢ`
 
-❂ `/cleanblue` <on/off/yes/no>*:* clean commands after sending
-❂ `/ignoreblue` <word>*:* prevent auto cleaning of the command
-❂ `/unignoreblue` <word>*:* remove prevent auto cleaning of the command
-❂ `/listblue`*:* list currently whitelisted commands
+• /ignoreblue <word>*:* `ᴘʀᴇᴠᴇɴᴛ ᴀᴜᴛᴏ ᴄʟᴇᴀɴɪɴɢ ᴏғ ᴛʜᴇ ᴄᴏᴍᴍᴀɴᴅ `
 
- *Following are Disasters only commands, admins cannot use these:*
+• /unignoreblue <word>*:* `ʀᴇᴍᴏᴠᴇ ᴘʀᴇᴠᴇɴᴛ ᴀᴜᴛᴏ ᴄʟᴇᴀɴɪɴɢ ᴏғ ᴛʜᴇ ᴄᴏᴍᴍᴀɴᴅ `
 
-❂ `/gignoreblue` <word>*:* globally ignorea bluetext cleaning of saved word across Saitama.
-❂ `/ungignoreblue` <word>*:* remove said command from global cleaning list
+• /listblue*:* `ʟɪsᴛ ᴄᴜʀʀᴇɴᴛʟʏ ᴡʜɪᴛᴇʟɪsᴛᴇᴅ ᴄᴏᴍᴍᴀɴᴅs `
+ 
+*ᴏɴʟʏ ᴄᴏᴍᴍᴀɴᴅs, ᴀᴅᴍɪɴs ᴄᴀɴɴᴏᴛ ᴜsᴇ ᴛʜᴇsᴇ:*
+ 
+• /gignoreblue <word>*:* `ɢʟᴏʙᴀʟʟʏ ɪɢɴᴏʀᴇᴀ ʙʟᴜᴇᴛᴇxᴛ ᴄʟᴇᴀɴɪɴɢ ᴏғ sᴀᴠᴇᴅ ᴡᴏʀᴅ ᴀᴄʀᴏss` {BOT_NAME}.
+
+• /ungignoreblue <word>*:* `ʀᴇᴍᴏᴠᴇ sᴀɪᴅ ᴄᴏᴍᴍᴀɴᴅ ғʀᴏᴍ ɢʟᴏʙᴀʟ ᴄʟᴇᴀɴɪɴɢ ʟɪsᴛ `
 """
