@@ -125,11 +125,11 @@ def add_bluetext_ignore(update: Update, context: CallbackContext):
         if added := sql.chat_ignore_command(chat.id, val):
             reply = f"<b>{args[0]}</b> has been added to bluetext cleaner ignore list."
         else:
-            reply = "No command supplied to be ignored."
+            reply = "Command is already ignored."
         message.reply_text(reply, parse_mode=ParseMode.HTML)
 
     else:
-        reply = "ɴᴏ ᴄᴏᴍᴍᴀɴᴅ sᴜᴘᴘʟɪᴇᴅ ᴛᴏ ʙᴇ ɪɢɴᴏʀᴇᴅ."
+        reply = "No command supplied to be ignored."
         message.reply_text(reply)
 
 
