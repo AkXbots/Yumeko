@@ -1,6 +1,33 @@
+"""
+STATUS: Code is working. ✅
+"""
+
+"""
+GNU General Public License v3.0
+
+Copyright (C) 2022, SOME-1HING [https://github.com/SOME-1HING]
+
+Credits:-
+    I don't know who originally wrote this code. If you originally wrote this code, please reach out to me. 
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+"""
+
 import html
 
-from NekoRobot import ALLOW_EXCL, CustomCommandHandler, NEKO_PTB
+from NekoRobot import CustomCommandHandler, NEKO_PTB
+from NekoRobot import ALLOW_EXCL
 from NekoRobot.modules.disable import DisableAbleCommandHandler
 from NekoRobot.modules.helper_funcs.chat_status import (
     bot_can_delete,
@@ -214,20 +241,6 @@ def bluetext_ignore_list(update: Update, context: CallbackContext):
     return
 
 
-saxsux = """
- Blue text cleaner removed any made up commands that people send in your chat.
-
-• /cleanblue <on/off/yes/no>*:* clean commands after sending
-• /ignoreblue <word>*:* prevent auto cleaning of the command
-• /unignoreblue <word>*:* remove prevent auto cleaning of the command
-• /listblue*:* list currently whitelisted commands
-
- *Following are Disasters only commands, admins cannot use these:*
-
-• /gignoreblue <word>*:* globally ignorea bluetext cleaning of saved word across Saitama.
-• /ungignoreblue <word>*:* remove said command from global cleaning list
-"""
-
 SET_CLEAN_BLUE_TEXT_HANDLER = CommandHandler(
     "cleanblue", set_blue_text_must_click, run_async=True
 )
@@ -264,8 +277,7 @@ NEKO_PTB.add_handler(REMOVE_CLEAN_BLUE_TEXT_GLOBAL_HANDLER)
 NEKO_PTB.add_handler(LIST_CLEAN_BLUE_TEXT_HANDLER)
 NEKO_PTB.add_handler(CLEAN_BLUE_TEXT_HANDLER, BLUE_TEXT_CLEAN_GROUP)
 
-inline = "Cleaner"
-hndrl = [
+__handlers__ = [
     SET_CLEAN_BLUE_TEXT_HANDLER,
     ADD_CLEAN_BLUE_TEXT_HANDLER,
     REMOVE_CLEAN_BLUE_TEXT_HANDLER,
@@ -274,3 +286,19 @@ hndrl = [
     LIST_CLEAN_BLUE_TEXT_HANDLER,
     (CLEAN_BLUE_TEXT_HANDLER, BLUE_TEXT_CLEAN_GROUP),
 ]
+
+__mod_name__ = "Cleaner"
+
+__help__ = """
+ Blue text cleaner removed any made up commands that people send in your chat.
+
+❂ `/cleanblue` <on/off/yes/no>*:* clean commands after sending
+❂ `/ignoreblue` <word>*:* prevent auto cleaning of the command
+❂ `/unignoreblue` <word>*:* remove prevent auto cleaning of the command
+❂ `/listblue`*:* list currently whitelisted commands
+
+ *Following are Disasters only commands, admins cannot use these:*
+
+❂ `/gignoreblue` <word>*:* globally ignorea bluetext cleaning of saved word across Saitama.
+❂ `/ungignoreblue` <word>*:* remove said command from global cleaning list
+"""
