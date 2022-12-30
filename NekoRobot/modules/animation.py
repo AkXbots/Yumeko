@@ -1,12 +1,36 @@
+"""
+STATUS: Code is working. ✅
+"""
+
+"""
+GNU General Public License v3.0
+
+Copyright (C) 2022, SOME-1HING [https://github.com/SOME-1HING]
+
+Credits:-
+    I don't know who originally wrote this code. If you originally wrote this code, please reach out to me. 
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+"""
+
 import time
-from typing import List
 
 from telegram import Update
-from telegram.ext import run_async, CallbackContext
+from telegram.ext import CallbackContext
 
 from NekoRobot import NEKO_PTB
 from NekoRobot.modules.disable import DisableAbleCommandHandler
-from NekoRobot.modules.helper_funcs.chat_status import user_admin
 
 # sleep how many times after each edit in 'love'
 EDIT_SLEEP = 1
@@ -191,7 +215,6 @@ earth_ani = [
 ]
 
 
-@user_admin
 def blockanimation(update: Update, context: CallbackContext):
     bot, args = context.bot, context.args
     msg = update.effective_message.reply_text("⬜")
@@ -201,7 +224,6 @@ def blockanimation(update: Update, context: CallbackContext):
     msg.edit_text("🟥")
 
 
-@user_admin
 def clockanimation(update: Update, context: CallbackContext):
     bot, args = context.bot, context.args
     msg = update.effective_message
@@ -214,7 +236,6 @@ def clockanimation(update: Update, context: CallbackContext):
     msg.edit_text("🕚")
 
 
-@user_admin
 def earthanimation(update: Update, context: CallbackContext):
     bot, args = context.bot, context.args
     msg = update.effective_message
@@ -227,7 +248,6 @@ def earthanimation(update: Update, context: CallbackContext):
     msg.edit_text("🌍")
 
 
-@user_admin
 def moonanimation(update: Update, context: CallbackContext):
     bot, args = context.bot, context.args
     msg = update.effective_message.reply_text("🌚")
@@ -237,7 +257,6 @@ def moonanimation(update: Update, context: CallbackContext):
     msg.edit_text("🌙")
 
 
-@user_admin
 def bombs(update: Update, context: CallbackContext):
     bot, args = context.bot, context.args
     msg = update.effective_message.reply_text("💣")
@@ -247,7 +266,6 @@ def bombs(update: Update, context: CallbackContext):
     msg.edit_text("RIP PLOX...")
 
 
-@user_admin
 def hack(update: Update, context: CallbackContext):
     bot, args = context.bot, context.args
     msg = update.effective_message.reply_text("Target selected")
@@ -257,7 +275,6 @@ def hack(update: Update, context: CallbackContext):
     msg.edit_text("successful hacked all data send on my Database")
 
 
-@user_admin
 def love(update: Update, context: CallbackContext):
     bot, args = context.bot, context.args
     msg = update.effective_message.reply_text("❣️")
@@ -267,7 +284,6 @@ def love(update: Update, context: CallbackContext):
     msg.edit_text("True Love💞")
 
 
-@user_admin
 def kill(update: Update, context: CallbackContext):
     bot, args = context.bot, context.args
     msg = update.effective_message.reply_text("🔫")
@@ -275,7 +291,6 @@ def kill(update: Update, context: CallbackContext):
         msg.edit_text(kill_you[x % 12])
         time.sleep(EDIT_SLEEP)
     msg.edit_text("⚰")
-
 
 
 KILL_HANDLER = DisableAbleCommandHandler("kill", kill, run_async=True)
@@ -301,8 +316,8 @@ NEKO_PTB.add_handler(MOONANIMATION_HANDLER)
 NEKO_PTB.add_handler(CLOCKANIMATION_HANDLER)
 NEKO_PTB.add_handler(BLOCKANIMATION_HANDLER)
 
-inline = "Animation"
-cmd = [
+
+__command_list__ = [
     "love",
     "hack",
     "bombs",
@@ -312,7 +327,7 @@ cmd = [
     "blockanimation",
     "kill",
 ]
-hndrl = [
+__handlers__ = [
     LOVE_HANDLER,
     HACK_HANDLER,
     BOMBS_HANDLER,
@@ -322,3 +337,16 @@ hndrl = [
     BLOCKANIMATION_HANDLER,
     KILL_HANDLER,
 ]
+
+
+__mod_name__ = "Animation "
+
+__help__ = """
+- `/love` ❣️
+- `/hack` 👨‍💻
+- `/bombs` 💣
+- `/moon` 🌖
+- `/clock` 🕑 
+- `/earth` 🌏
+- `/kill` 💀
+"""
