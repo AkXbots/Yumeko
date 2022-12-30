@@ -51,7 +51,7 @@ def tomorrow():
     return str(dt_tom())
 
 
-@pgram.on_message(filters.command(["couples", "shipping@SHIPPERINGbot", "shipping"]))
+@pgram.on_message(filters.command(["couples", "couple", "shipping@SHIPPERINGbot", "shipping"]))
 @capture_err
 async def couple(_, message):
     if message.chat.type == "private":
