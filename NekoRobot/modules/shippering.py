@@ -75,7 +75,7 @@ async def couple(_, message):
             c1_mention = (await pgram.get_users(c1_id)).mention
             c2_mention = (await pgram.get_users(c2_id)).mention
 
-            couple_selection_message = f"""**Couple of the day:**
+            couple_selection_message = f"""<b>Couple of the day:</b>
 {c1_mention} + {c2_mention} = 💗
 __New couple of the day may be chosen at 12AM {tomorrow()}__"""
             await pgram.send_message(
