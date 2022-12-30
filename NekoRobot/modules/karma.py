@@ -39,9 +39,10 @@ from NekoRobot.modules.mongo.karma_mongo import (
     update_karma,
 )
 from NekoRobot.utils.errors import capture_err
+from NekoRobot.utils.sections import section
 
 regex_upvote = r"^((?i)\+|\+\+|\+1|thx|tnx|ty|thank you|thanx|thanks|pro|cool|good|👍|nice|noice|piro)$"
-regex_downvote = r"^(\-|\-\-|\-1|👎|noob|Noob|gross|fuck off)$"
+regex_downvote = r"^(\-|\-\-|\-1|👎|chutiya|noobda|noob|Noob|gross|fuck off)$"
 
 karma_positive_group = 3
 karma_negative_group = 4
@@ -52,7 +53,7 @@ from pymongo import MongoClient
 from NekoRobot import MONGO_DB_URI
 
 worddb = MongoClient(MONGO_DB_URI)
-k = worddb["NekoKarma"]["karma_status"]
+k = worddb["MikuKarma"]["karma_status"]
 
 
 async def is_admins(chat_id: int):
@@ -93,7 +94,7 @@ async def upvote(_, message):
         new_karma = {"karma": karma}
         await update_karma(chat_id, await int_to_alpha(user_id), new_karma)
         await message.reply_text(
-            f"Incremented karma of +1 {user_mention} \nTotal Points: {karma}"
+            f"Incremented Karma of {user_mention} By 1 \nTotal Points: {karma}"
         )
 
 
@@ -128,21 +129,30 @@ async def downvote(_, message):
         new_karma = {"karma": karma}
         await update_karma(chat_id, await int_to_alpha(user_id), new_karma)
         await message.reply_text(
-            f"Decremented Karma of -1 {user_mention}  \nTotal Points: {karma}"
+            f"Decremented Karma Of {user_mention} By 1 \nTotal Points: {karma}"
         )
 
+async def get_user_id_and_usernames(client) -> dict:
+    with client.storage.lock, client.storage.conn:
+        users = client.storage.conn.execute(
+            'SELECT * FROM peers WHERE type in ("user", "bot") AND username NOT null'
+        ).fetchall()
+    users_ = {}
+    for user in users:
+        users_[user[0]] = user[3]
+    return users_
 
-@app.on_message(filters.command("karmastats") & filters.group)
+
+@app.on_message(filters.command("karma") & filters.group)
 @capture_err
-async def karma(_, message):
+async def command_karma(_, message):
     chat_id = message.chat.id
     if not message.reply_to_message:
-        m = await message.reply_text("Wait 10 Seconds")
+        m = await message.reply_text("Analyzing Karma...")
         karma = await get_karmas(chat_id)
         if not karma:
-            await m.edit("No Karma in DB for this chat.")
-            return
-        msg = f"**ᴋᴀʀᴍᴀ ʟɪsᴛ ᴏғ {message.chat.title}:- **\n"
+            return await m.edit("No karma in DB for this chat.")
+        msg = f"Karma list of {message.chat.title}"
         limit = 0
         karma_dicc = {}
         for i in karma:
@@ -150,31 +160,37 @@ async def karma(_, message):
             user_karma = karma[i]["karma"]
             karma_dicc[str(user_id)] = user_karma
             karma_arranged = dict(
-                sorted(karma_dicc.items(), key=lambda item: item[1], reverse=True)
+                sorted(
+                    karma_dicc.items(),
+                    key=lambda item: item[1],
+                    reverse=True,
+                )
             )
         if not karma_dicc:
-            await m.edit("No Karma in DB for this chat.")
-            return
+            return await m.edit("No karma in DB for this chat.")
+        userdb = await get_user_id_and_usernames(app)
+        karma = {}
         for user_idd, karma_count in karma_arranged.items():
-            if limit > 9:
+            if limit > 15:
                 break
-            try:
-                user = await app.get_users(int(user_idd))
-                await asyncio.sleep(0.8)
-            except Exception:
+            if int(user_idd) not in list(userdb.keys()):
                 continue
-            first_name = user.first_name
-            if not first_name:
-                continue
-            username = user.username
-            msg += f"**{karma_count}**  {(first_name[0:12] + '...') if len(first_name) > 12 else first_name}  `{('@' + username) if username else user_idd}`\n"
+            username = userdb[int(user_idd)]
+            karma["➣ @" + username] = ["<b>" + str(karma_count) + "</b>"]
             limit += 1
-        await m.edit(msg)
+        await m.edit(section(msg, karma))
     else:
+        if not message.reply_to_message.from_user:
+            return await message.reply("User has no karma.")
+
         user_id = message.reply_to_message.from_user.id
         karma = await get_karma(chat_id, await int_to_alpha(user_id))
-        karma = karma["karma"] if karma else 0
-        await message.reply_text(f"**Total Points :** {karma}")
+        if karma:
+            karma = karma["karma"]
+            await message.reply_text(f"<b>Total Points</b>: __{karma}__")
+        else:
+            karma = 0
+            await message.reply_text(f"<b>Total Points</b>: __{karma}__")
 
 
 __mod_name__ = "Karma"
@@ -183,7 +199,6 @@ __help__ = """
 *Upvote* - Use upvote keywords like "+", "+1", "thanks", etc. to upvote a message.
 *Downvote* - Use downvote keywords like "-", "-1", etc. to downvote a message.
 *Commands*
-•/karmastats:- reply to a user to check that user's karma points.
-•/karmastats:- send without replying to any message to check karma point list of top 10
-•/karma :- Enable/Disable karma in your group.
+•/karma:- reply to a user to check that user's karma points.
+•/karma:- send without replying to any message to check karma point list of top 10.
 """
