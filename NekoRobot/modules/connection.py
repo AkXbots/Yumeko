@@ -1,42 +1,20 @@
-"""
-STATUS: Code is working. ✅
-"""
-
-"""
-GNU General Public License v3.0
-
-Copyright (C) 2022, SOME-1HING [https://github.com/SOME-1HING]
-
-Credits:-
-    I don't know who originally wrote this code. If you originally wrote this code, please reach out to me. 
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <https://www.gnu.org/licenses/>.
-"""
-
 import time
 import re
-from .helper_funcs.admin_status import AdminPerms, user_admin
 
 from telegram import ParseMode, InlineKeyboardMarkup, InlineKeyboardButton, Update, Bot
 from telegram.error import BadRequest, Unauthorized
-from telegram.ext import CommandHandler, CallbackQueryHandler
+from telegram.ext import CommandHandler, CallbackQueryHandler, run_async
 
 import NekoRobot.modules.sql.connection_sql as sql
 from NekoRobot import NEKO_PTB, DRAGONS, DEV_USERS
+from NekoRobot.modules.helper_funcs import chat_status
 from NekoRobot.modules.helper_funcs.alternate import send_message, typing_action
 
-@user_admin(AdminPerms.CAN_CHANGE_INFO)
+user_admin = chat_status.user_admin
+
+
+@user_admin
+@run_async
 @typing_action
 def allow_connections(update, context) -> str:
 
@@ -79,12 +57,11 @@ def allow_connections(update, context) -> str:
                     parse_mode=ParseMode.MARKDOWN,
                 )
     else:
-        send_message(
-            update.effective_message,
-            "This command is for group only. Not in PM!",
-        )
+        send_message(update.effective_message,
+                     "This command is for group only. Not in PM!")
 
 
+@run_async
 @typing_action
 def connection_chat(update, context):
 
@@ -109,6 +86,7 @@ def connection_chat(update, context):
     send_message(update.effective_message, message, parse_mode="markdown")
 
 
+@run_async
 @typing_action
 def connect_chat(update, context):
 
@@ -121,18 +99,14 @@ def connect_chat(update, context):
             try:
                 connect_chat = int(args[0])
                 getstatusadmin = context.bot.get_chat_member(
-                    connect_chat,
-                    update.effective_message.from_user.id,
-                )
+                    connect_chat, update.effective_message.from_user.id)
             except ValueError:
                 try:
                     connect_chat = str(args[0])
                     get_chat = context.bot.getChat(connect_chat)
                     connect_chat = get_chat.id
                     getstatusadmin = context.bot.get_chat_member(
-                        connect_chat,
-                        update.effective_message.from_user.id,
-                    )
+                        connect_chat, update.effective_message.from_user.id)
                 except BadRequest:
                     send_message(update.effective_message, "Invalid Chat ID!")
                     return
@@ -146,57 +120,49 @@ def connect_chat(update, context):
 
             if (isadmin) or (isallow and ismember) or (user.id in DRAGONS):
                 connection_status = sql.connect(
-                    update.effective_message.from_user.id,
-                    connect_chat,
-                )
+                    update.effective_message.from_user.id, connect_chat)
                 if connection_status:
                     conn_chat = NEKO_PTB.bot.getChat(
-                        connected(context.bot, update, chat, user.id, need_admin=False),
-                    )
+                        connected(
+                            context.bot,
+                            update,
+                            chat,
+                            user.id,
+                            need_admin=False))
                     chat_name = conn_chat.title
                     send_message(
                         update.effective_message,
-                        "Successfully connected to *{}*. \nUse /helpconnect to check available commands.".format(
-                            chat_name,
-                        ),
+                        "Successfully connected to *{}*. \nUse /helpconnect to check available commands."
+                        .format(chat_name),
                         parse_mode=ParseMode.MARKDOWN,
                     )
                     sql.add_history_conn(user.id, str(conn_chat.id), chat_name)
                 else:
                     send_message(update.effective_message, "Connection failed!")
             else:
-                send_message(
-                    update.effective_message,
-                    "Connection to this chat is not allowed!",
-                )
+                send_message(update.effective_message,
+                             "Connection to this chat is not allowed!")
         else:
             gethistory = sql.get_history_conn(user.id)
             if gethistory:
                 buttons = [
                     InlineKeyboardButton(
-                        text="❎ Close button",
-                        callback_data="connect_close",
-                    ),
+                        text="❎ Close button", callback_data="connect_close"),
                     InlineKeyboardButton(
-                        text="🧹 Clear history",
-                        callback_data="connect_clear",
-                    ),
+                        text="🧹 Clear history", callback_data="connect_clear"),
                 ]
             else:
                 buttons = []
-            conn = connected(context.bot, update, chat, user.id, need_admin=False)
+            conn = connected(
+                context.bot, update, chat, user.id, need_admin=False)
             if conn:
                 connectedchat = NEKO_PTB.bot.getChat(conn)
                 text = "You are currently connected to *{}* (`{}`)".format(
-                    connectedchat.title,
-                    conn,
-                )
+                    connectedchat.title, conn)
                 buttons.append(
                     InlineKeyboardButton(
                         text="🔌 Disconnect",
-                        callback_data="connect_disconnect",
-                    ),
-                )
+                        callback_data="connect_disconnect"))
             else:
                 text = "Write the chat ID or tag to connect!"
             if gethistory:
@@ -208,26 +174,19 @@ def connect_chat(update, context):
                 for x in sorted(gethistory.keys(), reverse=True):
                     htime = time.strftime("%d/%m/%Y", time.localtime(x))
                     text += "╞═「 *{}* 」\n│   `{}`\n│   `{}`\n".format(
-                        gethistory[x]["chat_name"],
-                        gethistory[x]["chat_id"],
-                        htime,
-                    )
+                        gethistory[x]["chat_name"], gethistory[x]["chat_id"],
+                        htime)
                     text += "│\n"
-                    buttons.append(
-                        [
-                            InlineKeyboardButton(
-                                text=gethistory[x]["chat_name"],
-                                callback_data="connect({})".format(
-                                    gethistory[x]["chat_id"],
-                                ),
-                            ),
-                        ],
-                    )
+                    buttons.append([
+                        InlineKeyboardButton(
+                            text=gethistory[x]["chat_name"],
+                            callback_data="connect({})".format(
+                                gethistory[x]["chat_id"]),
+                        )
+                    ])
                 text += "╘══「 Total {} Chats 」".format(
-                    str(len(gethistory)) + " (max)"
-                    if len(gethistory) == 5
-                    else str(len(gethistory)),
-                )
+                    str(len(gethistory)) +
+                    " (max)" if len(gethistory) == 5 else str(len(gethistory)))
                 conn_hist = InlineKeyboardMarkup(buttons)
             elif buttons:
                 conn_hist = InlineKeyboardMarkup([buttons])
@@ -242,17 +201,13 @@ def connect_chat(update, context):
 
     else:
         getstatusadmin = context.bot.get_chat_member(
-            chat.id,
-            update.effective_message.from_user.id,
-        )
+            chat.id, update.effective_message.from_user.id)
         isadmin = getstatusadmin.status in ("administrator", "creator")
         ismember = getstatusadmin.status in ("member")
         isallow = sql.allow_connect_to_chat(chat.id)
         if (isadmin) or (isallow and ismember) or (user.id in DRAGONS):
             connection_status = sql.connect(
-                update.effective_message.from_user.id,
-                chat.id,
-            )
+                update.effective_message.from_user.id, chat.id)
             if connection_status:
                 chat_name = NEKO_PTB.bot.getChat(chat.id).title
                 send_message(
@@ -264,9 +219,8 @@ def connect_chat(update, context):
                     sql.add_history_conn(user.id, str(chat.id), chat_name)
                     context.bot.send_message(
                         update.effective_message.from_user.id,
-                        "You are connected to *{}*. \nUse `/helpconnect` to check available commands.".format(
-                            chat_name,
-                        ),
+                        "You are connected to *{}*. \nUse `/helpconnect` to check available commands."
+                        .format(chat_name),
                         parse_mode="markdown",
                     )
                 except BadRequest:
@@ -276,25 +230,23 @@ def connect_chat(update, context):
             else:
                 send_message(update.effective_message, "Connection failed!")
         else:
-            send_message(
-                update.effective_message,
-                "Connection to this chat is not allowed!",
-            )
+            send_message(update.effective_message,
+                         "Connection to this chat is not allowed!")
 
 
 def disconnect_chat(update, context):
 
     if update.effective_chat.type == "private":
-        disconnection_status = sql.disconnect(update.effective_message.from_user.id)
+        disconnection_status = sql.disconnect(
+            update.effective_message.from_user.id)
         if disconnection_status:
-            sql.disconnected_chat = send_message(
-                update.effective_message,
-                "Disconnected from chat!",
-            )
+            sql.disconnected_chat = send_message(update.effective_message,
+                                                 "Disconnected from chat!")
         else:
             send_message(update.effective_message, "You're not connected!")
     else:
-        send_message(update.effective_message, "This command is only available in PM.")
+        send_message(update.effective_message,
+                     "This command is only available in PM.")
 
 
 def connected(bot: Bot, update: Update, chat, user_id, need_admin=True):
@@ -304,30 +256,22 @@ def connected(bot: Bot, update: Update, chat, user_id, need_admin=True):
 
         conn_id = sql.get_connected_chat(user_id).chat_id
         getstatusadmin = bot.get_chat_member(
-            conn_id,
-            update.effective_message.from_user.id,
-        )
+            conn_id, update.effective_message.from_user.id)
         isadmin = getstatusadmin.status in ("administrator", "creator")
         ismember = getstatusadmin.status in ("member")
         isallow = sql.allow_connect_to_chat(conn_id)
 
-        if (
-            (isadmin)
-            or (isallow and ismember)
-            or (user.id in DRAGONS)
-            or (user.id in DEV_USERS)
-        ):
+        if ((isadmin) or (isallow and ismember) or (user.id in DRAGONS) or
+            (user.id in DEV_USERS)):
             if need_admin is True:
-                if (
-                    getstatusadmin.status in ("administrator", "creator")
-                    or user_id in DRAGONS
-                    or user.id in DEV_USERS
-                ):
+                if (getstatusadmin.status in ("administrator", "creator") or
+                        user_id in DRAGONS or user.id in DEV_USERS):
                     return conn_id
-                send_message(
-                    update.effective_message,
-                    "You must be an admin in the connected group!",
-                )
+                else:
+                    send_message(
+                        update.effective_message,
+                        "You must be an admin in the connected group!",
+                    )
             else:
                 return conn_id
         else:
@@ -353,16 +297,20 @@ CONN_HELP = """
  • More in future!"""
 
 
+@run_async
 def help_connect_chat(update, context):
 
     args = context.args
 
     if update.effective_message.chat.type != "private":
-        send_message(update.effective_message, "PM me with that command to get help.")
+        send_message(update.effective_message,
+                     "PM me with that command to get help.")
         return
-    send_message(update.effective_message, CONN_HELP, parse_mode="markdown")
+    else:
+        send_message(update.effective_message, CONN_HELP, parse_mode="markdown")
 
 
+@run_async
 def connect_button(update, context):
 
     query = update.callback_query
@@ -376,7 +324,8 @@ def connect_button(update, context):
 
     if connect_match:
         target_chat = connect_match.group(1)
-        getstatusadmin = context.bot.get_chat_member(target_chat, query.from_user.id)
+        getstatusadmin = context.bot.get_chat_member(target_chat,
+                                                     query.from_user.id)
         isadmin = getstatusadmin.status in ("administrator", "creator")
         ismember = getstatusadmin.status in ("member")
         isallow = sql.allow_connect_to_chat(target_chat)
@@ -386,13 +335,12 @@ def connect_button(update, context):
 
             if connection_status:
                 conn_chat = NEKO_PTB.bot.getChat(
-                    connected(context.bot, update, chat, user.id, need_admin=False),
-                )
+                    connected(
+                        context.bot, update, chat, user.id, need_admin=False))
                 chat_name = conn_chat.title
                 query.message.edit_text(
-                    "Successfully connected to *{}*. \nUse `/helpconnect` to check available commands.".format(
-                        chat_name,
-                    ),
+                    "Successfully connected to *{}*. \nUse `/helpconnect` to check available commands."
+                    .format(chat_name),
                     parse_mode=ParseMode.MARKDOWN,
                 )
                 sql.add_history_conn(user.id, str(conn_chat.id), chat_name)
@@ -402,18 +350,15 @@ def connect_button(update, context):
             context.bot.answer_callback_query(
                 query.id,
                 "Connection to this chat is not allowed!",
-                show_alert=True,
-            )
+                show_alert=True)
     elif disconnect_match:
         disconnection_status = sql.disconnect(query.from_user.id)
         if disconnection_status:
-            sql.disconnected_chat = query.message.edit_text("Disconnected from chat!")
+            sql.disconnected_chat = query.message.edit_text(
+                "Disconnected from chat!")
         else:
             context.bot.answer_callback_query(
-                query.id,
-                "You're not connected!",
-                show_alert=True,
-            )
+                query.id, "You're not connected!", show_alert=True)
     elif clear_match:
         sql.clear_history_conn(query.from_user.id)
         query.message.edit_text("History connected has been cleared!")
@@ -423,23 +368,28 @@ def connect_button(update, context):
         connect_chat(update, context)
 
 
-CONNECT_CHAT_HANDLER = CommandHandler(
-    "connect", connect_chat, pass_args=True, run_async=True
-)
-CONNECTION_CHAT_HANDLER = CommandHandler("connection", connection_chat, run_async=True)
-DISCONNECT_CHAT_HANDLER = CommandHandler("disconnect", disconnect_chat, run_async=True)
+__mod_name__ = "Connection"
+
+__help__ = """
+Sometimes, you just want to add some notes and filters to a group chat, but you don't want everyone to see; This is where connections come in...
+This allows you to connect to a chat's database, and add things to it without the commands appearing in chat! For obvious reasons, you need to be an admin to add things; but any member in the group can view your data.
+
+ • /connect: Connects to chat (Can be done in a group by /connect or /connect <chat id> in PM)
+ • /connection: List connected chats
+ • /disconnect: Disconnect from a chat
+ • /helpconnect: List available commands that can be used remotely
+
+*Admin only:*
+ • /allowconnect <yes/no>: allow a user to connect to a chat
+"""
+
+CONNECT_CHAT_HANDLER = CommandHandler("connect", connect_chat, pass_args=True)
+CONNECTION_CHAT_HANDLER = CommandHandler("connection", connection_chat)
+DISCONNECT_CHAT_HANDLER = CommandHandler("disconnect", disconnect_chat)
 ALLOW_CONNECTIONS_HANDLER = CommandHandler(
-    "allowconnect",
-    allow_connections,
-    pass_args=True,
-    run_async=True,
-)
-HELP_CONNECT_CHAT_HANDLER = CommandHandler(
-    "helpconnect", help_connect_chat, run_async=True
-)
-CONNECT_BTN_HANDLER = CallbackQueryHandler(
-    connect_button, pattern=r"connect", run_async=True
-)
+    "allowconnect", allow_connections, pass_args=True)
+HELP_CONNECT_CHAT_HANDLER = CommandHandler("helpconnect", help_connect_chat)
+CONNECT_BTN_HANDLER = CallbackQueryHandler(connect_button, pattern=r"connect")
 
 NEKO_PTB.add_handler(CONNECT_CHAT_HANDLER)
 NEKO_PTB.add_handler(CONNECTION_CHAT_HANDLER)
@@ -447,19 +397,3 @@ NEKO_PTB.add_handler(DISCONNECT_CHAT_HANDLER)
 NEKO_PTB.add_handler(ALLOW_CONNECTIONS_HANDLER)
 NEKO_PTB.add_handler(HELP_CONNECT_CHAT_HANDLER)
 NEKO_PTB.add_handler(CONNECT_BTN_HANDLER)
-
-__mod_name__ = "Connection"
-
-__help__ = """
-Sometimes, you just want to add some notes and filters to a group chat, but you don't want everyone to see; This is where connections come in...
-This allows you to connect to a chat's database, and add things to it without the commands appearing in chat! For obvious reasons, you need to be an admin to add things; but any member in the group can view your data.
-
-❂ `/connect`: Connects to chat (Can be done in a group by /connect or /connect <chat id> in PM)
-❂ `/connection`: List connected chats
-❂ `/disconnect`: Disconnect from a chat
-❂ `/helpconnect`: List available commands that can be used remotely
-
-*Admin only:*
-
-❂ `/allowconnect` <yes/no>: allow a user to connect to a chat
-"""
