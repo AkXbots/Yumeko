@@ -467,7 +467,7 @@ def connection_status(func):
     return connected_status
 
 
-from NekoRobot.modules import connectionn
+from NekoRobot.modules import connection
 
 connected = connection.connected
 
