@@ -31,7 +31,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 import time
 import re
 
-from telegram.constants import ParseMode
+from telegram import ParseMode
 from telegram import InlineKeyboardMarkup, InlineKeyboardButton, Update, Bot
 from telegram.error import BadRequest, Forbidden
 from telegram.ext import (CommandHandler, CallbackQueryHandler, CallbackContext)
