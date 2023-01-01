@@ -467,9 +467,9 @@ def connection_status(func):
     return connected_status
 
 
-from NekoRobot.modules import connection
+from NekoRobot.modules import connectionn
 
-connected = connection.connected
+connected = connectionn.connected
 
 
 def callbacks_in_filters(data):
