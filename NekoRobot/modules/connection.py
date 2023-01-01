@@ -33,7 +33,7 @@ import re
 
 from telegram import ParseMode
 from telegram import InlineKeyboardMarkup, InlineKeyboardButton, Update, Bot
-from telegram.error import BadRequest, Forbidden
+from telegram.error import BadRequest, Unauthorized
 from telegram.ext import (CommandHandler, CallbackQueryHandler, CallbackContext)
 
 import NekoRobot.modules.sql.connection_sql as sql
@@ -249,7 +249,7 @@ async def connect_chat(
                         .format(chat_name),
                         parse_mode="markdown",
                     )
-                except (BadRequest, Forbidden):
+                except (BadRequest, Unauthorized):
                     pass
             else:
                 send_message(update.effective_message, "Connection failed!")
