@@ -6,7 +6,7 @@ from telegram.ext import CommandHandler, MessageHandler
 from telegram.utils.helpers import escape_markdown
 
 from NekoRobot import NEKO_PTB
-from NekoRobot.modules.connection import connected
+from NekoRobot.modules.connectionn import connected
 from NekoRobot.modules.helper_funcs.alternate import send_message, typing_action
 from NekoRobot.modules.helper_funcs.handlers import CMD_STARTERS
 from NekoRobot.modules.helper_funcs.misc import is_module_loaded
