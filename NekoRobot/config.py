@@ -43,7 +43,7 @@ class Config(object):
     ARQ_API_KEY = "UMPYGF-MVNLVW-RTNXKA-FJWOUH-ARQ"
     ERROR_LOGS = -1001871775815
     BOT_NAME = "Cʜɪᴢᴜʀᴜ"
-    NO_LOAD = ["rss", "cleaner", "connection", "math"]
+    NO_LOAD = ["rss", "math"]
     WEBHOOK = False
     INFOPIC = True
     URL = None
