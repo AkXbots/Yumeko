@@ -1,216 +1,166 @@
+import glob
+import textwrap
+import random 
+from os import remove 
+from NekoRobot import pgram 
+from pyrogram import filters
 from PIL import Image, ImageFont, ImageDraw
 
-import textwrap
-
-import os
-
-from NekoRobot.events import register
-
-from NekoRobot import (
-
-    LOGGER,
-
-    TEMP_DOWNLOAD_DIRECTORY
-
-    )
 
 
+@pgram.on_message(filters.command("mmf"))
+async def memify(client, message):
+    msg = await message.reply("`Memifying this image! ✊🏻`")
 
-from NekoRobot import tbot as bot
+    replied = message.reply_to_message
 
+    if len(message.command) < 2 or not replied:
+        return await msg.edit("Give me some text and reply to an image or sticker")
 
-Credit = "Levi" 
-
-
-@register(pattern="^/mmf ?(.*)")
-
-async def handler(event):
-
-    if event.fwd_from:
-
-        return
-
-    if not event.reply_to_msg_id:
-
-        await event.reply("Provide Some Text To Draw!")
-
-        return
-
-    reply_message = await event.get_reply_message()
-
-    if not reply_message.media:
-
-        await event.reply("```Reply to a image/sticker.```")
-
-        return
-
-    file = await bot.download_media(reply_message)
-
-    msg = await event.reply("```Memifying this image! ```")
-
-    if "Levi" in Credit:
-       pass
-
-    else: 
-       await event.reply("This nigga removed credit line from code")
-
-
-    text = str(event.pattern_match.group(1)).strip()
-
-    if len(text) < 1:
-
-        return await msg.reply("You might want to try `/mmf text`")
-
-    meme = await drawText(file, text)
-
-    await bot.send_file(event.chat_id, file=meme, force_document=False)
+    if not (replied.photo or replied.sticker):
+        return await msg.edit("Bruhh! I can't memify videos/vid stickers/gifs.")
     
-    await msg.delete() 
+    text = message.text.split(None, 1)[1].strip()
+
+    if "a-" in text :
+        text = text.replace("a-","")
+        font_path = "a.otf"
+
+    try:        
+        file = await replied.download()
+        res = await draw_meme_text(file,text,font_path)
+        await message.reply_sticker(res)
+        try:
+           await msg.delete()
+           remove(res)
+        except:
+            pass
+    except Exception as er:                           
+        await msg.edit("Use /mmf command with reply to the sticker, separated by ; to make text position below.")
     
-    os.remove(meme)
+        
 
+    
 
-async def drawText(image_path, text):
-
+async def draw_meme_text(image_path, text,font_path):
     img = Image.open(image_path)
-
-    os.remove(image_path)
-
-    shadowcolor = "black"
-
+    remove(image_path)
     i_width, i_height = img.size
-
-    if os.name == "nt":
-
-        fnt = "ariel.ttf"
-
-    else:
-
-        fnt = "./NekoRobot/LOGO_FONT/default.ttf"
-
-    m_font = ImageFont.truetype(fnt, int((70 / 640) * i_width))
-
+    m_font = ImageFont.truetype(font_path, int((70 / 640) * i_width))
     if ";" in text:
-
         upper_text, lower_text = text.split(";")
-
     else:
-
         upper_text = text
-
-        lower_text = ''
-
+        lower_text = ""
     draw = ImageDraw.Draw(img)
-
     current_h, pad = 10, 5
-
     if upper_text:
-
         for u_text in textwrap.wrap(upper_text, width=15):
-
             u_width, u_height = draw.textsize(u_text, font=m_font)
 
-            draw.text(xy=(((i_width - u_width) / 2) - 2, int((current_h / 640)
+            draw.text(
+                xy=(((i_width - u_width) / 2) - 1, int((current_h / 640) * i_width)),
+                text=u_text,
+                font=m_font,
+                fill=(0, 0, 0),
+                stroke_width=3,
+                stroke_fill="black",
+            )
+            draw.text(
+                xy=(((i_width - u_width) / 2) + 1, int((current_h / 640) * i_width)),
+                text=u_text,
+                font=m_font,
+                fill=(0, 0, 0),
+                stroke_width=3,
+                stroke_fill="black",
+            )
+            draw.text(
+                xy=((i_width - u_width) / 2, int(((current_h / 640) * i_width)) - 1),
+                text=u_text,
+                font=m_font,
+                fill=(0, 0, 0),
+                stroke_width=3,
+                stroke_fill="black",
+            )
+            draw.text(
+                xy=(((i_width - u_width) / 2), int(((current_h / 640) * i_width)) + 1),
+                text=u_text,
+                font=m_font,
+                fill=(0, 0, 0),
+                stroke_width=3,
+                stroke_fill="black",
+            )
 
-                                                             * i_width)), text=u_text, font=m_font, fill=(0, 0, 0))
-
-            draw.text(xy=(((i_width - u_width) / 2) + 2, int((current_h / 640)
-
-                                                             * i_width)), text=u_text, font=m_font, fill=(0, 0, 0))
-
-            draw.text(xy=((i_width - u_width) / 2,
-
-                          int(((current_h / 640) * i_width)) - 2),
-
-                      text=u_text,
-
-                      font=m_font,
-
-                      fill=(0,
-
-                            0,
-
-                            0))
-
-            draw.text(xy=(((i_width - u_width) / 2),
-
-                          int(((current_h / 640) * i_width)) + 2),
-
-                      text=u_text,
-
-                      font=m_font,
-
-                      fill=(0,
-
-                            0,
-
-                            0))
-
-
-
-            draw.text(xy=((i_width - u_width) / 2, int((current_h / 640)
-
-                                                       * i_width)), text=u_text, font=m_font, fill=(255, 255, 255))
-
+            draw.text(
+                xy=((i_width - u_width) / 2, int((current_h / 640) * i_width)),
+                text=u_text,
+                font=m_font,
+                fill=(255, 255, 255),
+            )
             current_h += u_height + pad
-
     if lower_text:
-
         for l_text in textwrap.wrap(lower_text, width=15):
-
             u_width, u_height = draw.textsize(l_text, font=m_font)
 
             draw.text(
-
-                xy=(((i_width - u_width) / 2) - 2, i_height -
-
-                    u_height - int((20 / 640) * i_width)),
-
-                text=l_text, font=m_font, fill=(0, 0, 0))
+                xy=(
+                    ((i_width - u_width) / 2) - 1,
+                    i_height - u_height - int((20 / 640) * i_width),
+                ),
+                text=l_text,
+                font=m_font,
+                fill=(0, 0, 0),
+                stroke_width=3,
+                stroke_fill="black",
+            )
+            draw.text(
+                xy=(
+                    ((i_width - u_width) / 2) + 1,
+                    i_height - u_height - int((20 / 640) * i_width),
+                ),
+                text=l_text,
+                font=m_font,
+                fill=(0, 0, 0),
+                stroke_width=3,
+                stroke_fill="black",
+            )
+            draw.text(
+                xy=(
+                    (i_width - u_width) / 2,
+                    (i_height - u_height - int((20 / 640) * i_width)) - 1,
+                ),
+                text=l_text,
+                font=m_font,
+                fill=(0, 0, 0),
+                stroke_width=3,
+                stroke_fill="black",
+            )
+            draw.text(
+                xy=(
+                    (i_width - u_width) / 2,
+                    (i_height - u_height - int((20 / 640) * i_width)) + 1,
+                ),
+                text=l_text,
+                font=m_font,
+                fill=(0, 0, 0),
+                stroke_width=3,
+                stroke_fill="black",
+            )
 
             draw.text(
+                xy=(
+                    (i_width - u_width) / 2,
+                    i_height - u_height - int((20 / 640) * i_width),
+                ),
+                text=l_text,
+                font=m_font,
+                fill=(255, 255, 255),
+                stroke_width=3,
+                stroke_fill="black",
+            )
+            current_h += u_height + pad
 
-                xy=(((i_width - u_width) / 2) + 2, i_height -
-
-                    u_height - int((20 / 640) * i_width)),
-
-                text=l_text, font=m_font, fill=(0, 0, 0))
-
-            draw.text(
-
-                xy=((i_width - u_width) / 2, (i_height -
-
-                                              u_height - int((20 / 640) * i_width)) - 2),
-
-                text=l_text, font=m_font, fill=(0, 0, 0))
-
-            draw.text(
-
-                xy=((i_width - u_width) / 2, (i_height -
-
-                                              u_height - int((20 / 640) * i_width)) + 2),
-
-                text=l_text, font=m_font, fill=(0, 0, 0))
-
-
-
-            draw.text(
-
-                xy=((i_width - u_width) / 2, i_height -
-
-                    u_height - int((20 / 640) * i_width)),
-
-                text=l_text, font=m_font, fill=(255, 255, 255))
-
-            current_h += u_height + pad          
-
-    image_name = "memify.webp"
-
-    webp_file = os.path.join(image_name)
-
-    img.save(webp_file, "webp")
-
+    webp_file = "memify.webp"
+    img.save(webp_file, "WebP")
     return webp_file
 
-
-__mod_name__ = "Memify"
