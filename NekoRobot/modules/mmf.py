@@ -10,7 +10,7 @@ from PIL import Image, ImageFont, ImageDraw
 
 @pgram.on_message(filters.command("mmf"))
 async def memify(client, message):
-    msg = await message.reply("`Memifying this image! ✊🏻`")
+    msg = await message.reply("<code>Memifying this image! ✊🏻</code>")
 
     replied = message.reply_to_message
 
@@ -18,7 +18,7 @@ async def memify(client, message):
         return await msg.edit("Give me some text and reply to an image or sticker")
 
     if not (replied.photo or replied.sticker):
-        return await msg.edit("Bruhh! I can't memify videos/vid stickers/gifs.")
+        return await msg.edit("Bruhh! I can't memify videos, vid-stickers and gifs...")
     
     text = message.text.split(None, 1)[1].strip()
 
