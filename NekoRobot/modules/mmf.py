@@ -26,6 +26,9 @@ async def memify(client, message):
         text = text.replace("a-","")
         font_path = "a.otf"
 
+    else:         
+        font_path = "FontRemix.ttf"
+
     try:        
         file = await replied.download()
         res = await draw_meme_text(file,text,font_path)
