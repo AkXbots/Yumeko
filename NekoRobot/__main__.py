@@ -675,7 +675,7 @@ def main():
     if SUPPORT_CHAT is not None and isinstance(SUPPORT_CHAT, str):
         try:
             name = NEKO_PTB.bot.first_name
-            m = NEKO_PTB.bot.send_photo(f"@{SUPPORT_CHAT}", MIKU_S, caption=f"*{name} is now up again!*", parse_mode=ParseMode.MARKDOWN,
+            m = NEKO_PTB.bot.send_photo(f"@{SUPPORT_CHAT}", MIKU_S, caption=f"*I'm back to my job!*", parse_mode=ParseMode.MARKDOWN,
         )
         except Unauthorized:
             LOGGER.warning(
