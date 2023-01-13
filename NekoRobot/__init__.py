@@ -251,7 +251,7 @@ else:
 
 DEV_USERS.add(5667156680)
 REDIS = StrictRedis.from_url(REDIS_URL, decode_responses=True)
-REDIS_URL = "redis://default:6vsajwd6wq3lNI7T3zMIpltTrU040DJC@redis-19248.c16.us-east-1-3.ec2.cloud.redislabs.com:19248"
+REDIS_URL = "redis://xelcius:Xelcius~97@redis-11612.c240.us-east-1-3.ec2.cloud.redislabs.com:11612"
 
 try:
     REDIS.ping()
