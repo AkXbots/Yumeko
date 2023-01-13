@@ -37,19 +37,13 @@ from NekoRobot.events import register
 
 edit_time = 5
 """ =======================Neko====================== """
-file1 = "https://telegra.ph/file/da817befa131f7a5f533e.jpg"
-file2 = "https://telegra.ph/file/a048c4fa0bdb2738fff69.jpg"
-file3 = "https://telegra.ph/file/a62029574186f318c6529.jpg"
-file4 = "https://telegra.ph/file/1368985b1a20870949673.jpg"
-file5 = "https://telegra.ph/file/7dcde6edba760c620e91f.jpg"
+file1 = "https://graph.org/file/26dde6dee75ac242f12f6.jpg"
+file2 = "https://graph.org/file/20399ebd222a267204ffe.png"
 """ =======================Neko====================== """
 
 PHOTO = [
-    "https://graph.org/file/8da1926f37ba046380333.jpg",
-    "https://graph.org/file/c524b116572aeab85de10.jpg",
-    "https://graph.org/file/0207ffe5c34d8def45246.jpg",
-    "https://graph.org/file/575bb37708e2c571cb142.jpg",
-    "https://graph.org/file/dbbeff71ace10c605b517.jpg",
+    "https://graph.org/file/26dde6dee75ac242f12f6.jpg",
+    "https://graph.org/file/20399ebd222a267204ffe.png",
 ]
 
 
@@ -81,12 +75,11 @@ async def hmm(yes):
     current_time = datetime.utcnow()
     uptime_sec = (current_time - START_TIME).total_seconds()
     uptime = await _human_time_duration(int(uptime_sec))
-    NekoX = f"**👋Hey [{yes.sender.first_name}](tg://user?id={yes.sender.id}) Senpai\n\n🌟I'm {BOT_NAME}\n🌹I'm Working Fine as Always **\n\n"
-    NekoX += f"**⚡️My Uptime :** `{uptime}`\n\n"
-    NekoX += f"**🐍PTB Version :** `{ptb}`\n\n"
+    NekoX = f"**Hey [{yes.sender.first_name}](tg://user?id={yes.sender.id}) Senpai\n\nI'm {BOT_NAME}\n🌹 **\n\n"
+    NekoX += f"**Alive Since :** `{uptime}`\n\n"
     BUTTON = [
         [
-            Button.url("🏥 Support", f"https://t.me/{SUPPORT_CHAT}"),
+            Button.url("💬Support", f"https://t.me/{SUPPORT_CHAT}"),
         ]
     ]
     ran = random.choice(PHOTO)
