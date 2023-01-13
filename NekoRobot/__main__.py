@@ -110,18 +110,18 @@ def get_readable_time(seconds: int) -> str:
     return ping_time
 
 
-HELP_IMG = "https://graph.org/file/6cfacdbb83055d3988e95.jpg"
+HELP_IMG = "https://telegra.ph/file/46d1384390ae7bf814905.jpg"
 HELP_MSG = "Click The Button Below To Get Help Menu In Your Dm."
 START_MSG = "I'm Awake Already!\n<b>Haven't Slept Since:</b> <code>{}</code>"
 
 PM_START_TEXT = """
-────「 [Cʜɪᴢᴜʀᴜ]({}) 」────
+────「 [🅈🅄🄼🄴🄺🄾]({}) 」────
 ❂ Hayi Hayi! *{}* Senpai,
 Myself *Yumeko* An Advance Management Bot Built to Manage Your Groups.
 ───────────────────────
 ⦿ Alive Since {}
 ───────────────────────
-**Hit /help to find out more about how to use me to my full potential.**
+*Hit /help to find out more about how to use me to my full potential.*
 """
 
 
@@ -140,7 +140,7 @@ buttons = [
         )
     ],
     [
-        InlineKeyboardButton(text="Commands", callback_data="help_back"),
+        InlineKeyboardButton(text="⚙️ Commands ⚙️", callback_data="help_back"),
         InlineKeyboardButton(
             text="💬 Support", url="https://t.me/Yumeko_Support_Chat"
         ),
