@@ -287,14 +287,14 @@ def start(update: Update, context: CallbackContext):
     else:
         update.effective_message.reply_photo(
             random.choice(GROUP_START_IMG),
-            caption=f"OwO Onichan! I'm Ready To Play, Hehe.",
+            caption=f"To make your ambitions come true, you have to take risks, btw im alive hehe!",
             parse_mode=ParseMode.HTML,
             reply_markup=InlineKeyboardMarkup(
                 [
                   [
                        InlineKeyboardButton(
                              text="🚑 sᴜᴘᴘᴏʀᴛ",
-                             url="t.me/WoFBotsSupport"),
+                             url="t.me/Yumeko_Support_Chat"),
                     ]
                 ]
             ),
@@ -366,7 +366,7 @@ def help_button(update: Update, context: CallbackContext) -> None:
                     [
                         [
                             InlineKeyboardButton(
-                                text="Back ↩️", callback_data="help_back"
+                                text="Back 🔙", callback_data="help_back"
                             ),
                         ]
                     ]
@@ -645,7 +645,7 @@ def donate(update: Update, context: CallbackContext) -> None:
             )
 
             update.effective_message.reply_text(
-                text="Adding Me To Your Groups Is Donation For Me Though I Would Appreciate If You Join My Creator's Group."
+                text="Adding Me To Your Groups Is Donation For Me Though I Would Appreciate If You Join My Creator's Group @EXTINCTION_XD."
             )
         except Unauthorized:
             update.effective_message.reply_text(
