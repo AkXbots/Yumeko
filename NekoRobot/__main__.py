@@ -126,10 +126,13 @@ Myself *Yumeko* An Advance Management Bot Built to Manage Your Groups.
 
 
 PHOTO = (
-      "https://graph.org/file/4878cb0da9ba0033a14db.jpg",
-      "https://graph.org/file/c79f1b7c810df3b3cf007.jpg",
-      "https://graph.org/file/152ffb897bd997454931f.jpg",
-      "https://graph.org/file/aebb5a90ffc092ea49787.jpg",
+      "https://graph.org/file/d83b580634ac1590471f4.jpg",
+      "https://graph.org/file/cd0694447554e66eb5ad5.jpg",
+      "https://graph.org/file/be42c59456bad76fec619.jpg",
+      "https://graph.org/file/b133b77a192510d463cac.jpg",
+      "https://graph.org/file/e59a61290dd7097a3c5f1.jpg",
+      "https://graph.org/file/092872aa619a467d57ea5.jpg",
+      "https://graph.org/file/281ee6f0787440b251c8a.jpg",
 )
 
 buttons = [
