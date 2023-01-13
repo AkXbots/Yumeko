@@ -116,13 +116,12 @@ START_MSG = "I'm Awake Already!\n<b>Haven't Slept Since:</b> <code>{}</code>"
 
 PM_START_TEXT = """
 ────「 [Cʜɪᴢᴜʀᴜ]({}) 」────
-*Hᴀʏɪ Hᴀʏɪ*! {} sᴇɴᴘᴀɪ,
-Mʏsᴇʟғ *Cʜɪᴢᴜʀᴜ* ᴀɴ ᴀᴅᴠᴀɴᴄᴇᴅ ᴍᴀɴᴀɢᴇᴍᴇɴᴛ ʙᴏᴛ ʙᴜɪʟᴛ ᴛᴏ ᴍᴀɴᴀɢᴇ ʏᴏᴜʀ ɢʀᴏᴜᴘs.
-sᴏ ᴡʜᴀᴛ ᴀʀᴇ ʏᴏᴜ ᴡᴀɪᴛɪɴɢ ғᴏʀ sᴇɴᴘᴀɪ ʀᴇʟᴀx ᴀɴᴅ ᴊᴜsᴛ ᴀᴅᴅ ᴍᴇ ɪɴ ʏᴏᴜʀ ɢʀᴏᴜᴘ ᴀɴᴅ ʟᴇᴍᴍᴇ ʜᴀɴᴅʟᴇ ᴀʟʟ ᴛʜᴇ ᴛᴀsᴋs.
-━─━────༺༻────━─━
-⦿ ᴜᴘᴛɪᴍᴇ {}
-━─━────༺༻────━─━
-ʜɪᴛ /help ᴛᴏ ᴋɴᴏᴡ ᴍʏ ᴀʙɪʟɪᴛɪᴇs.
+❂ *Hayi Hayi*! {} Senpai,
+Myself *Raiden* An Advance Management Bot Built to Manage Your Groups.
+───────────────────────
+⦿ Alive Since {}
+───────────────────────
+**Hit /help to find out more about how to use me to my full potential.**
 """
 
 
@@ -136,14 +135,14 @@ PHOTO = (
 buttons = [
     [
         InlineKeyboardButton(
-            text=f"🔥ᴀᴅᴅ ᴍᴇ ɪɴ ɢʀᴏᴜᴘs🔥",
+            text=f"Add Me In Your Chat",
             url=f"https://telegram.dog/{BOT_USERNAME}?startgroup=true",
         )
     ],
     [
-        InlineKeyboardButton(text="⚡ᴄᴏᴍᴍᴀɴᴅs⚡", callback_data="help_back"),
+        InlineKeyboardButton(text="Commands", callback_data="help_back"),
         InlineKeyboardButton(
-            text="🚁sᴜᴘᴘᴏʀᴛ🚁", url="https://t.me/Yumeko_Support_Chat"
+            text="Support", url="https://t.me/Yumeko_Support_Chat"
         ),
     ],
 ]
