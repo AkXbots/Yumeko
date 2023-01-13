@@ -75,11 +75,11 @@ async def hmm(yes):
     current_time = datetime.utcnow()
     uptime_sec = (current_time - START_TIME).total_seconds()
     uptime = await _human_time_duration(int(uptime_sec))
-    NekoX = f"**Hey [{yes.sender.first_name}](tg://user?id={yes.sender.id}) Senpai\n\nI'm {BOT_NAME}\n🌹 **\n\n"
+    NekoX = f"**Hey [{yes.sender.first_name}](tg://user?id={yes.sender.id}) Senpai\nI'm {BOT_NAME}\n **\n"
     NekoX += f"**Alive Since :** `{uptime}`\n\n"
     BUTTON = [
         [
-            Button.url("💬Support", f"https://t.me/{SUPPORT_CHAT}"),
+            Button.url("💬Support Chat", f"https://t.me/{SUPPORT_CHAT}"),
         ]
     ]
     ran = random.choice(PHOTO)
