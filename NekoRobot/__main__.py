@@ -142,7 +142,7 @@ buttons = [
     [
         InlineKeyboardButton(text="⚙️Commands⚙️", callback_data="help_back"),
         InlineKeyboardButton(
-            text="💬Support💬", url="https://t.me/Raiden_Support_Chat"
+            text="💬Support💬", url="https://t.me/Yumeko_Support_Chat"
         ),
     ],
 ]
@@ -292,7 +292,7 @@ def start(update: Update, context: CallbackContext):
                   [
                        InlineKeyboardButton(
                              text="🚑 Support",
-                             url="t.me/Raiden_Support_Chat"),
+                             url="https://t.me/Yumeko_Support_Chat"),
                     ]
                 ]
             ),
