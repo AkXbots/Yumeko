@@ -83,7 +83,7 @@ from NekoRobot.modules import ALL_MODULES
 from NekoRobot.modules.helper_funcs.chat_status import is_user_admin
 from NekoRobot.modules.helper_funcs.misc import paginate_modules
 
-MIKU_S = "https://graph.org/file/3de54ad1098888d494b93.jpg"
+MIKU_S = "https://telegra.ph/file/9b453248afa725f09c0d8.jpg"
 
 def get_readable_time(seconds: int) -> str:
     count = 0
