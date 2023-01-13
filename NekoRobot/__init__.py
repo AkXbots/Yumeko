@@ -236,9 +236,9 @@ else:
     TEMP_DOWNLOAD_DIRECTORY = Config.TEMP_DOWNLOAD_DIRECTORY
     BOT_NAME = Config.BOT_NAME
     ARQ_API_URL = "arq.hamker.dev"
-    ARQ_API_KEY = "UMPYGF-MVNLVW-RTNXKA-FJWOUH-ARQ"
+    ARQ_API_KEY = "HOYQOV-EYTKTC-RLELMG-IPFLVH-ARQ"
 
-    BOT_USERNAME = "Nezuko_ProXBot"
+    BOT_USERNAME = "YumekoxProBot"
     OPENWEATHERMAP_ID = "ca1f9caacbb92187db96c0bf5686017b"
 
     REM_BG_API_KEY = Config.REM_BG_API_KEY
@@ -249,7 +249,7 @@ else:
         raise Exception("Your blacklisted chats list does not contain valid integers.")
 
 
-DEV_USERS.add(5667156680)
+DEV_USERS.add(2033411815)
 REDIS = StrictRedis.from_url(REDIS_URL, decode_responses=True)
 REDIS_URL = "redis://xelcius:Xelcius~97@redis-11612.c240.us-east-1-3.ec2.cloud.redislabs.com:11612"
 
