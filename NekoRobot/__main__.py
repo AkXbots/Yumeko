@@ -127,13 +127,10 @@ sᴏ ᴡʜᴀᴛ ᴀʀᴇ ʏᴏᴜ ᴡᴀɪᴛɪɴɢ ғᴏʀ sᴇɴᴘᴀɪ ʀ�
 
 
 PHOTO = (
-      "https://graph.org/file/d83b580634ac1590471f4.jpg",
-      "https://graph.org/file/cd0694447554e66eb5ad5.jpg",
-      "https://graph.org/file/be42c59456bad76fec619.jpg",
-      "https://graph.org/file/b133b77a192510d463cac.jpg",
-      "https://graph.org/file/e59a61290dd7097a3c5f1.jpg",
-      "https://graph.org/file/092872aa619a467d57ea5.jpg",
-      "https://graph.org/file/281ee6f0787440b251c8a.jpg",
+      "https://graph.org/file/152ffb897bd997454931f.jpg",
+      "https://graph.org/file/4878cb0da9ba0033a14db.jpg",
+      "https://graph.org/file/c79f1b7c810df3b3cf007.jpg",
+      "https://graph.org/file/24b213e3597ff331c1ce4.jpg",
 )
 
 buttons = [
@@ -146,7 +143,7 @@ buttons = [
     [
         InlineKeyboardButton(text="⚡ᴄᴏᴍᴍᴀɴᴅs⚡", callback_data="help_back"),
         InlineKeyboardButton(
-            text="🚁sᴜᴘᴘᴏʀᴛ🚁", url="https://t.me/WoFBotsSupport"
+            text="🚁sᴜᴘᴘᴏʀᴛ🚁", url="https://t.me/Yumeko_Support_Chat"
         ),
     ],
 ]
@@ -162,11 +159,9 @@ HELP_STRINGS = """
 """
 
 GROUP_START_IMG = (
-    "https://graph.org/file/8da1926f37ba046380333.jpg",
-    "https://graph.org/file/c524b116572aeab85de10.jpg",
-    "https://graph.org/file/0207ffe5c34d8def45246.jpg",
-    "https://graph.org/file/575bb37708e2c571cb142.jpg",
-    "https://graph.org/file/dbbeff71ace10c605b517.jpg",
+    "https://graph.org/file/aebb5a90ffc092ea49787.jpg",
+    "https://graph.org/file/d47bcce83504d005aaafa.jpg",
+    "https://graph.org/file/d202920aeacb41b284c73.jpg",
 )
 
 DONATE_STRING = """❂ I'm Free for Everyone ❂"""
