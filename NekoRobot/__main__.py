@@ -83,7 +83,7 @@ from NekoRobot.modules import ALL_MODULES
 from NekoRobot.modules.helper_funcs.chat_status import is_user_admin
 from NekoRobot.modules.helper_funcs.misc import paginate_modules
 
-MIKU_S = "https://graph.org/file/3e82eaefb988c94b235b0.jpg"
+MIKU_S = "https://graph.org/file/3de54ad1098888d494b93.jpg"
 
 def get_readable_time(seconds: int) -> str:
     count = 0
@@ -116,12 +116,13 @@ START_MSG = "I'm Awake Already!\n<b>Haven't Slept Since:</b> <code>{}</code>"
 
 PM_START_TEXT = """
 ────「 [Cʜɪᴢᴜʀᴜ]({}) 」────
-*Konnichiwa {},
-Myself *Yumeko* An Advance Management Bot Built to Manage Your Groups.
-───────────────────────
-⦿ Alive Since {}
-───────────────────────
-**Hit /help to find out more about how to use me to my full potential.**.
+*Hᴀʏɪ Hᴀʏɪ*! {} sᴇɴᴘᴀɪ,
+Mʏsᴇʟғ *Cʜɪᴢᴜʀᴜ* ᴀɴ ᴀᴅᴠᴀɴᴄᴇᴅ ᴍᴀɴᴀɢᴇᴍᴇɴᴛ ʙᴏᴛ ʙᴜɪʟᴛ ᴛᴏ ᴍᴀɴᴀɢᴇ ʏᴏᴜʀ ɢʀᴏᴜᴘs.
+sᴏ ᴡʜᴀᴛ ᴀʀᴇ ʏᴏᴜ ᴡᴀɪᴛɪɴɢ ғᴏʀ sᴇɴᴘᴀɪ ʀᴇʟᴀx ᴀɴᴅ ᴊᴜsᴛ ᴀᴅᴅ ᴍᴇ ɪɴ ʏᴏᴜʀ ɢʀᴏᴜᴘ ᴀɴᴅ ʟᴇᴍᴍᴇ ʜᴀɴᴅʟᴇ ᴀʟʟ ᴛʜᴇ ᴛᴀsᴋs.
+━─━────༺༻────━─━
+⦿ ᴜᴘᴛɪᴍᴇ {}
+━─━────༺༻────━─━
+ʜɪᴛ /help ᴛᴏ ᴋɴᴏᴡ ᴍʏ ᴀʙɪʟɪᴛɪᴇs.
 """
 
 
@@ -138,14 +139,14 @@ PHOTO = (
 buttons = [
     [
         InlineKeyboardButton(
-            text=f"✧Add Me To Your Chat✧",
+            text=f"🔥ᴀᴅᴅ ᴍᴇ ɪɴ ɢʀᴏᴜᴘs🔥",
             url=f"https://telegram.dog/{BOT_USERNAME}?startgroup=true",
         )
     ],
     [
-        InlineKeyboardButton(text="⚙️Commands⚙️", callback_data="help_back"),
+        InlineKeyboardButton(text="⚡ᴄᴏᴍᴍᴀɴᴅs⚡", callback_data="help_back"),
         InlineKeyboardButton(
-            text="💬Support💬", url="https://t.me/Yumeko_Support_Chat"
+            text="🚁sᴜᴘᴘᴏʀᴛ🚁", url="https://t.me/WoFBotsSupport"
         ),
     ],
 ]
@@ -161,11 +162,14 @@ HELP_STRINGS = """
 """
 
 GROUP_START_IMG = (
-    "https://graph.org/file/c79f1b7c810df3b3cf007.jpg",
-    "https://graph.org/file/3e82eaefb988c94b235b0.jpg",
+    "https://graph.org/file/8da1926f37ba046380333.jpg",
+    "https://graph.org/file/c524b116572aeab85de10.jpg",
+    "https://graph.org/file/0207ffe5c34d8def45246.jpg",
+    "https://graph.org/file/575bb37708e2c571cb142.jpg",
+    "https://graph.org/file/dbbeff71ace10c605b517.jpg",
 )
 
-DONATE_STRING = """I'm Free for Everyone"""
+DONATE_STRING = """❂ I'm Free for Everyone ❂"""
 
 IMPORTED = {}
 MIGRATEABLE = []
@@ -294,8 +298,8 @@ def start(update: Update, context: CallbackContext):
                 [
                   [
                        InlineKeyboardButton(
-                             text="🚑 Support",
-                             url="https://t.me/Yumeko_Support_Chat"),
+                             text="🚑 sᴜᴘᴘᴏʀᴛ",
+                             url="t.me/WoFBotsSupport"),
                     ]
                 ]
             ),
@@ -367,7 +371,7 @@ def help_button(update: Update, context: CallbackContext) -> None:
                     [
                         [
                             InlineKeyboardButton(
-                                text="•Back•", callback_data="help_back"
+                                text="Back ↩️", callback_data="help_back"
                             ),
                         ]
                     ]
@@ -630,7 +634,7 @@ def donate(update: Update, context: CallbackContext) -> None:
 
         if OWNER_ID != 5667156680 and DONATION_LINK:
             update.effective_message.reply_text(
-                f"Adding Me To Your Groups Is Donation For Me Though I Would Appreciate If You Join My Creator's Group @EXTINCTION_XD",
+                f"Adding Me To Your Groups Is Donation For Me Though I Would Appreciate If You Join My Creator's Group @WingsOfFreedom2",
                 parse_mode=ParseMode.MARKDOWN,
             )
 
@@ -646,7 +650,7 @@ def donate(update: Update, context: CallbackContext) -> None:
             )
 
             update.effective_message.reply_text(
-                text="Adding Me To Your Groups Is Donation For Me Though I Would Appreciate If You Join My Creator's Group @EXTINCTION_XD."
+                text="Adding Me To Your Groups Is Donation For Me Though I Would Appreciate If You Join My Creator's Group."
             )
         except Unauthorized:
             update.effective_message.reply_text(
