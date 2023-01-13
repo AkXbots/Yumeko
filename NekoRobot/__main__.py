@@ -116,8 +116,8 @@ START_MSG = "I'm Awake Already!\n<b>Haven't Slept Since:</b> <code>{}</code>"
 
 PM_START_TEXT = """
 ────「 [Cʜɪᴢᴜʀᴜ]({}) 」────
-❂ *Hayi Hayi*! {} Senpai,
-Myself *Raiden* An Advance Management Bot Built to Manage Your Groups.
+❂ Hayi Hayi! *{}* Senpai,
+Myself *Yumeko* An Advance Management Bot Built to Manage Your Groups.
 ───────────────────────
 ⦿ Alive Since {}
 ───────────────────────
@@ -135,14 +135,14 @@ PHOTO = (
 buttons = [
     [
         InlineKeyboardButton(
-            text=f"Add Me In Your Chat",
+            text=f"✧ Add Me In Your Chat ✧",
             url=f"https://telegram.dog/{BOT_USERNAME}?startgroup=true",
         )
     ],
     [
         InlineKeyboardButton(text="Commands", callback_data="help_back"),
         InlineKeyboardButton(
-            text="Support", url="https://t.me/Yumeko_Support_Chat"
+            text="💬 Support", url="https://t.me/Yumeko_Support_Chat"
         ),
     ],
 ]
@@ -292,7 +292,7 @@ def start(update: Update, context: CallbackContext):
                 [
                   [
                        InlineKeyboardButton(
-                             text="🚑 sᴜᴘᴘᴏʀᴛ",
+                             text="🚑 Support",
                              url="t.me/Yumeko_Support_Chat"),
                     ]
                 ]
