@@ -2,7 +2,7 @@ import random
 from .. import tbot as asst
 from telethon import Button, events
 
-BUTTON = [[Button.url("❓ What Is This", "https://t.me/WOFBotsUpdates/6")]]
+BUTTON = [[Button.url("❓ What Is This", "https://t.me/Yumeko_Support_Chat/202")]]
 HOT = "https://telegra.ph/file/096ac399f60404f893902.mp4"
 SMEXY = "https://telegra.ph/file/228d41c1d991a32475fa6.mp4"
 LEZBIAN = "https://telegra.ph/file/489f5aeceabde13b04f45.mp4"
