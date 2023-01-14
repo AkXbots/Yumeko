@@ -29,7 +29,7 @@ import requests
 from NekoRobot import pgram as pbot
 from pytz import timezone
 from datetime import datetime
-
+from pyrogram.enums import ParseMode
 
 def get_indian_tz_time(hour, minutes):
     current_time = datetime.now()
@@ -55,10 +55,10 @@ def schedule(_, message):
         else:
             text = data
 
-    message.reply_text(f"**Today's Schedule:**\nTime-Zone: Indian (GMT +9)\n\n{text}")
+    message.reply_text(f"**Today's Schedule:**\nTime-Zone: Indian (GMT +9)\n\n{text}", parse_mode=ParseMode.MARKDOWN)
 
 
-__mod_name__ = "Anime Schedule"
+__mod_name__ = "Schedule"
 
 __help__ = """
  ❍ `/latest`: to see latest anime episode
