@@ -2,7 +2,7 @@ from NekoRobot import pgram, OWNER_ID
 from pyrogram import filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
-button=InlineKeyboardMarkup([[InlineKeyboardButton(text="owner",url=f"https://t.me/JUMPMAN_BOY")],[InlineKeyboardButton(text="Join Here ", url="https://t.me/EXTINCTION_XD")]])  
+button=InlineKeyboardMarkup([[InlineKeyboardButton(text="⚡Owner",url=f"https://t.me/JUMPMAN_BOY")],[InlineKeyboardButton(text="Join Here 💬", url="https://t.me/EXTINCTION_XD")]])  
        
 
 @pgram.on_message(filters.command("owner"))
