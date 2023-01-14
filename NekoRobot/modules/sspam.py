@@ -1,4 +1,5 @@
 from pyrogram import Client, enums, filters
+from pyrogram.types import Message
 from NekoRobot import DRAGONS 
 
 @Client.on_message(
