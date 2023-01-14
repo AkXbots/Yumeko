@@ -35,7 +35,7 @@ def get_indian_tz_time(hour, minutes):
     current_time = datetime.now()
     date_converted = datetime(current_time.year, current_time.month, current_time.day, int(hour), int(minutes),
                               tzinfo=timezone("Japan")).astimezone(timezone("Asia/Kolkata"))
-    return date_converted.strftime("%H:%M")
+    return date_converted.strftime("%I:%M %p")
 
 
 @pbot.on_message(filters.command('latest'))
@@ -58,7 +58,7 @@ def schedule(_, message):
     message.reply_text(f"**Today's Schedule:**\nTime-Zone: Indian (GMT +9)\n\n{text}", parse_mode=ParseMode.MARKDOWN)
 
 
-__mod_name__ = "Schedule"
+__mod_name__ = "Anime Schedule"
 
 __help__ = """
  ❍ `/latest`: to see latest anime episode
