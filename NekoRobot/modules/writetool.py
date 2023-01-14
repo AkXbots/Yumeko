@@ -14,14 +14,14 @@ async def handwrite(_, message: Message):
         )
         m = await pgram.send_message(message.chat.id, "waito...")
         photo = "https://apis.xditya.me/write?text=" + name
-        await pgram.send_photo(message.chat.id, photo=photo, caption=f"✍️ Written By @Chizuru_ProxBot")
+        await pgram.send_photo(message.chat.id, photo=photo, caption=f"✍️ Written By @YumekoxProBot")
         await m.delete()
     else:
         lol = message.reply_to_message.text
         name = lol.split(None, 0)[0].replace(" ", "%20")
         m = await pgram.send_message(message.chat.id, "waito..")
         photo = "https://apis.xditya.me/write?text=" + name
-        await pgram.send_photo(message.chat.id, photo=photo, caption=f"✍️ Written By @Chizuru_ProxBot")
+        await pgram.send_photo(message.chat.id, photo=photo, caption=f"✍️ Written By @YumekoxProBot")
         await m.delete()
 
 
