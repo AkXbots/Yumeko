@@ -33,7 +33,7 @@ from datetime import datetime
 
 def get_indian_tz_time(hour, minutes):
     current_time = datetime.now()
-    date_converted = datetime(current_time.year, current_time.month, current_time.day, hour, minutes,
+    date_converted = datetime(current_time.year, current_time.month, current_time.day, int(hour), int(minutes),
                               tzinfo=timezone("Japan")).astimezone(timezone("Asia/Kolkata"))
     return date_converted.strftime("%H:%M")
 
