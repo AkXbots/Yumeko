@@ -156,7 +156,7 @@ async def lego(event):
    await event.reply(f'Error Go to Help From  @{SUPPORT_CHAT}, {e}')
 
 
-@register(pattern="^/logo ?(.*)")
+@register(pattern="^/xlogo ?(.*)")
 async def lego(event):
  quew = event.pattern_match.group(1)
  if event.sender_id == OWNER_ID:
