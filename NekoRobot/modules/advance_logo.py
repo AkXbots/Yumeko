@@ -27,7 +27,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 from NekoRobot.events import register
 from NekoRobot import OWNER_ID, NEKO_PTB
 from NekoRobot import BOT_USERNAME, SUPPORT_CHAT
-from NekoRobot import telethn as tbot
+from NekoRobot import tbot
 import os 
 from PIL import Image, ImageDraw, ImageFont
 import random
